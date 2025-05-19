@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задача Линейного Программирования</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+    <!-- Поле ввода коэффициентов -->
+    <div style="margin-top: 10px;">
+        <label for="title">Коэффициент a1:</label>
+        <input type="number" id="title" value="1"><br />
+        
+        <label for="title1">Коэффициент b1:</label>
+        <input type="number" id="title1" value="1"><br />
+        
+        <label for="title11">Свободный член c1:</label>
+        <input type="number" id="title11" value="0"><br />
+        
+        <label for="title2">Коэффициент a2:</label>
+        <input type="number" id="title2" value="1"><br />
+        
+        <label for="title3">Коэффициент b2:</label>
+        <input type="number" id="title3" value="1"><br />
+        
+        <label for="title22">Свободный член c2:</label>
+        <input type="number" id="title22" value="0"><br />
+        
+        <label for="title4">Коэффициент a3:</label>
+        <input type="number" id="title4" value="1"><br />
+        
+        <label for="title5">Коэффициент b3:</label>
+        <input type="number" id="title5" value="1"><br />
+        
+        <label for="title33">Свободный член c3:</label>
+        <input type="number" id="title33" value="0"><br />
+        
+        <button id="dang">Построить график</button><br /><br />
+        
+        <label for="sign1">Знак неравенства 1:</label>
+        <select id="sign1" class="sign-input">
+            <option value="<="><=</option>
+            <option value=">=">>=</option>
+        </select><br />
+        
+        <label for="sign2">Знак неравенства 2:</label>
+        <select id="sign2" class="sign-input">
+            <option value="<="><=</option>
+            <option value=">=">>=</option>
+        </select><br />
+        
+        <label for="sign3">Знак неравенства 3:</label>
+        <select id="sign3" class="sign-input">
+            <option value="<="><=</option>
+            <option value=">=">>=</option>
+        </select><br />
+        <canvas id="myChart" width="400" height="200"></canvas>
+    </div>
+<script>
+let myChart;
+const title = document.getElementById('title')
+const title1 = document.getElementById('title1')
+const title2 = document.getElementById('title2')
+const title3 = document.getElementById('title3')
+const title4 = document.getElementById('title4')
+const title5 = document.getElementById('title5')
+const title11 = document.getElementById('title11')
+const title22 = document.getElementById('title22')
+const title33 = document.getElementById('title33')
+const dang = document.getElementById('dang')
+
+const xValues = []
+const yValues1 = []
+const yValues2 = []
+const yValues3 = []
+
+const xandyVizov = () => {
+    xValues.length = 0 
+    yValues1.length = 0
+    yValues2.length = 0
+    yValues3.length = 0
+
+    for (let x = -100; x <= 100; x += 2) {
+        xValues.push(x)
+        yValues1.push((-title.value/title1.value*x) + (title11.value/title1.value))
+        yValues2.push((-title2.value/title3.value*x) + (title22.value/title3.value))
+        yValues3.push((-title4.value/title5.value*x) + (title33.value/title5.value))
+    }
+}
+
+dang.onclick = () => {
+    xandyVizov()
+
+    if (!myChart) {
+        const ctx = document.getElementById('myChart').getContext('2d')
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: xValues,
+                datasets: [
+                    {
+                        label: 'Первое выражение',
+                        data: yValues1,
+                        borderColor: 'rgba(0, 255, 0)',
+                        borderWidth: 3,
+                        backgroundColor: 'rgba(0, 255, 0, 0.2)', // Цвет заливки (полупрозрачный)
+                        fill: true
+                    },
+                    {
+                        label: 'Второе выражение',
+                        data: yValues2,
+                        borderColor: 'rgba(0, 255, 255)',
+                        borderWidth: 3,
+                        backgroundColor: 'rgba(0, 255, 255, 0.2)',
+                        fill: true
+                    },
+                    {
+                        label: 'Третье выражение',
+                        data: yValues3,
+                        borderColor: 'rgba(255, 255, 0)',
+                        borderWidth: 3,
+                        backgroundColor: 'rgba(255, 255, 0, 0.2)',
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'x'
+                        },
+                        min: 0,
+                        max: 20
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'y'
+                        },
+                        min: 0,
+                        max: 20,
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    } else {
+        updateChartData();
+    }
+};
+
+// Обработчик изменения знаков неравенств
+document.addEventListener('DOMContentLoaded', () => {
+    const signInputs = document.querySelectorAll('.sign-input');
+    signInputs.forEach(input => {
+        input.addEventListener('change', e => {
+            updateChartData();
+        });
+    });
+});
+
+function updateChartData() {
+    const sign1 = document.getElementById('sign1').value;
+    const sign2 = document.getElementById('sign2').value;
+    const sign3 = document.getElementById('sign3').value;
+
+    let yValues1 = [];
+    let yValues2 = [];
+    let yValues3 = [];
+
+    for (let x = -100; x <= 100; x += 2) {
+        yValues1.push((-title.value / title1.value * x) + (title11.value / title1.value));
+        yValues2.push((-title2.value / title3.value * x) + (title22.value / title3.value));
+        yValues3.push((-title4.value / title5.value * x) + (title33.value / title5.value));
+    }
+
+    applySignToLine(yValues1, sign1);
+    applySignToLine(yValues2, sign2);
+    applySignToLine(yValues3, sign3);
+
+    if (myChart) {
+        myChart.data.datasets[0].data = yValues1;
+        myChart.data.datasets[1].data = yValues2;
+        myChart.data.datasets[2].data = yValues3;
+        myChart.update(); // Обновляем график
+    }
+}
+
+// Применяем знак неравенства к данным линии
+function applySignToLine(yValues, sign) {
+    switch (sign) {
+        case '>=':
+            yValues.forEach((val, index) => {
+                if (val < 0) {
+                    yValues[index] = null;
+                }
+            });
+            break;
+        case '<=':
+            yValues.forEach((val, index) => {
+                if (val > 0) {
+                    yValues[index] = null;
+                }
+            });
+            break;
+    }
+}
+</script>
+</body>
+</html>

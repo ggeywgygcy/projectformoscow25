@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Графическое решение задач ЛП</title>
+    <!-- Подключение библиотеки Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <canvas id="myChart" width="400" height="200"></canvas>
+    
+    <!-- Ваши элементы ввода -->
+    Коэффициенты уравнений:<br />
+    a1: <input type="number" id="title" value="1"><br />
+    b1: <input type="number" id="title1" value="1"> x1 + c1: <input type="number" id="title11" value="0"><br /><br />
+    
+    a2: <input type="number" id="title2" value="1"><br />
+    b2: <input type="number" id="title3" value="1"> x2 + c2: <input type="number" id="title22" value="0"><br /><br />
+
+    a3: <input type="number" id="title4" value="1"><br />
+    b3: <input type="number" id="title5" value="1"> x3 + c3: <input type="number" id="title33" value="0"><br /><br />
+
+    Знаки неравенств:<br/>
+    1-е неравенство: <select class="sign-input" id="sign1">
+        <option value="<="><=</option>
+        <option value=">=">>=</option>
+    </select><br />
+
+    2-е неравенство: <select class="sign-input" id="sign2">
+        <option value="<="><=</option>
+        <option value=">=">>=</option>
+    </select><br />
+
+    3-е неравенство: <select class="sign-input" id="sign3">
+        <option value="<="><=</option>
+        <option value=">=">>=</option>
+    </select><br /><br/>
+
+    <button id="dang">Построить график</button>
+
+    <!-- Скрипт -->
+    <script>
+        let myChart;
+        const title = document.getElementById('title')
+        const title1 = document.getElementById('title1')
+        const title2 = document.getElementById('title2')
+        const title3 = document.getElementById('title3')
+        const title4 = document.getElementById('title4')
+        const title5 = document.getElementById('title5')
+        const title11 = document.getElementById('title11')
+        const title22 = document.getElementById('title22')
+        const title33 = document.getElementById('title33')
+        const dang = document.getElementById('dang')
+
+        const xValues = []
+        const yValues1 = []
+        const yValues2 = []
+        const yValues3 = []
+
+        function xandyVizov() {
+            xValues.length = 0 
+            yValues1.length = 0
+            yValues2.length = 0
+            yValues3.length = 0
+
+            for (let x = -100; x <= 100; x += 2) {
+                xValues.push(x)
+                yValues1.push((-title.value / title1.value * x) + (title11.value / title1.value))
+                yValues2.push((-title2.value / title3.value * x) + (title22.value / title3.value))
+                yValues3.push((-title4.value / title5.value * x) + (title33.value / title5.value))
+            }
+        }
+
+        dang.onclick = () => {
+            xandyVizov()
+
+            if (!myChart) {
+                const ctx = document.getElementById('myChart').getContext('2d')
+                myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: xValues,
+                        datasets: [
+                            {
+                                label: 'Первое выражение',
+                                data: yValues1,
+                                borderColor: 'rgba(0, 255, 0)',
+                                borderWidth: 3,
+                                backgroundColor: 'rgba(0, 255, 0, 0.1)', // Цвет заливки (полупрозрачный)
+                                fill: false
+                            },
+                            {
+                                label: 'Второе выражение',
+                                data: yValues2,
+                                borderColor: 'rgba(0, 255, 255)',
+                                borderWidth: 3,
+                                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                                fill: false
+                            },
+                            {
+                                label: 'Третье выражение',
+                                data: yValues3,
+                                borderColor: 'rgba(255, 255, 0)',
+                                borderWidth: 3,
+                                backgroundColor: 'rgba(255, 255, 0, 0.1 )',
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'x'
+                                },
+                                min: -10,
+                                max: 20
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'y'
+                                },
+                                min: -10,
+                                max: 20,
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top' // Расположение легенды сверху
+                            },
+                            tooltip: {
+                                mode: 'index', // Показывать подсказки для всех наборов данных одновременно
+                                intersect: true
+                            }
+                        }
+                    }
+                });
+            } else {
+                updateChartData();
+            }
+        };
+
+        // Обработчик изменения знаков неравенств
+        document.addEventListener('DOMContentLoaded', () => {
+            const signInputs = document.querySelectorAll('.sign-input');
+            signInputs.forEach(input => {
+                input.addEventListener('change', e => {
+                    updateChartData();
+                });
+            });
+        });
+
+        function updateChartData() {
+            const sign1 = document.getElementById('sign1').value;
+            const sign2 = document.getElementById('sign2').value;
+            const sign3 = document.getElementById('sign3').value;
+
+            let yValues1 = [];
+            let yValues2 = [];
+            let yValues3 = [];
+
+            for (let x = -100; x <= 100; x += 2) {
+                yValues1.push((-title.value / title1.value * x) + (title11.value / title1.value));
+                yValues2.push((-title2.value / title3.value * x) + (title22.value / title3.value));
+                yValues3.push((-title4.value / title5.value * x) + (title33.value / title5.value));
+            }
+
+            applySignToLine(yValues1, sign1);
+            applySignToLine(yValues2, sign2);
+            applySignToLine(yValues3, sign3);
+
+            if (myChart) {
+                myChart.data.datasets[0].data = yValues1;
+                myChart.data.datasets[1].data = yValues2;
+                myChart.data.datasets[2].data = yValues3;
+                myChart.update(); // Обновляем график
+            }
+        }
+
+        // Применяем знак неравенства к данным линии
+        function applySignToLine(yValues, sign) {
+            switch (sign) {
+                case '>=':
+                    yValues.forEach((val, index) => {
+                        if (val < 0) {
+                            yValues[index] = undefined; // Используем undefined для пропуска точки
+                        }
+                    });
+                    break;
+                case '<=':
+                    yValues.forEach((val, index) => {
+                        if (val > 0) {
+                            yValues[index] = undefined; // Используем undefined для пропуска точки
+                        }
+                    });
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

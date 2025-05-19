@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Линейное программирование</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+    <h1>Линейное программирование - графический метод</h1>
+    <input type="text" id="constraint" placeholder="Введите ограничение (например, 3x1 + x2 >= 9)">
+    <button onclick="addConstraint()">Добавить ограничение</button>
+    <button onclick="drawGraph()">Построить график</button>
+    <canvas id="myChart" width="600" height="600"></canvas>
+
+    <script>
+        const constraints = [];
+        const ctx = document.getElementById('myChart').getContext('2d');
+        let chart;
+
+        function addConstraint() {
+            const input = document.getElementById('constraint').value;
+            if (input) {
+                constraints.push(input);
+                document.getElementById('constraint').value = '';
+                console.log(constraints);
+            }
+        }
+
+        function drawGraph() {
+            if (chart) {
+                chart.destroy();
+            }
+
+            const datasets = [];
+            const backgrounds = [];
+
+            constraints.forEach((constraint) => {
+                const parts = constraint.split(' ');
+                const a = parseFloat(parts[0].slice(0, -1)); // Коэффициент перед x1
+                const b = parseFloat(parts[2].slice(0, -1)); // Коэффициент перед x2
+                const c = parseFloat(parts[4]);               // Свободный член
+                const sign = parts[3];                        // Знак неравенства
+
+                // Вычисляем точки для построения линии
+                const x1 = -10;
+                const x2 = 10;
+                const y1 = (c - a * x1) / b;
+                const y2 = (c - a * x2) / b;
+
+                datasets.push({
+                    label: constraint,
+                    data: [{ x: x1, y: y1 }, { x: x2, y: y2 }],
+                    borderColor: 'rgba(0, 0, 255, 1)',
+                    fill: false,
+                });
+
+                // Определяем область закрашивания
+                const xPoints = [x1, x2, x2, x1];
+                let yPoints;
+
+                if (sign === '>=') {
+                    yPoints = [y1, y2, 10, 10]; // Закрашиваем выше линии
+                } else {
+                    yPoints = [y1, y2, -10, -10]; // Закрашиваем ниже линии
+                }
+
+                backgrounds.push({
+                    x: xPoints,
+                    y: yPoints,
+                    backgroundColor: sign === '>=' ? 'rgba(0, 255, 0, 0.3)' : 'rgba(255, 0, 0, 0.3)',
+                });
+            });
+
+            // Создаем новый график
+            chart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: datasets,
+                },
+                options: {
+                    scales: {
+                        x: {
+                            min: -10,
+                            max: 10,
+                        },
+                        y: {
+                            min: -10,
+                            max: 10,
+                        },
+                    },
+                    plugins: {
+                        beforeDraw: function(chart) {
+                            const ctx = chart.ctx;
+                            backgrounds.forEach(bg => {
+                                ctx.fillStyle = bg.backgroundColor;
+                                ctx.beginPath();
+                                ctx.moveTo(bg.x[0], bg.y[0]);                                for (let i = 1; i < bg.x.length; i++) {
+                                    ctx.lineTo(bg.x[i], bg.y[i]);
+                                }
+                                ctx.closePath();
+                                ctx.fill();
+                            });
+                        },
+                    },
+                },
+            });
+        }
+    </script>
+</body>
+</html>

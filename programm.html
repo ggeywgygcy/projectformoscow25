@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Графическое решение задач ЛП</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    Коэффициенты уравнений:<br />
+    a1: <input type="number" id="title" value="3"><br />
+    b1: <input type="number" id="title1" value="1"> x1 + c1: <input type="number" id="title11" value="9"><br /><br />
+    
+    a2: <input type="number" id="title2" value="1"><br />
+    b2: <input type="number" id="title3" value="2"> x2 + c2: <input type="number" id="title22" value="8"><br /><br />
+
+    a3: <input type="number" id="title4" value="1"><br />
+    b3: <input type="number" id="title5" value="6"> x3 + c3: <input type="number" id="title33" value="12"><br /><br />
+
+
+
+    Знаки неравенств:<br/>
+    <!-- 1-е неравенство: <select class="sign-input" id="sign1">
+        <option value="<=">>=</option>
+        <option value=">="><=</option>
+    </select><br />
+
+    2-е неравенство: <select class="sign-input" id="sign2">
+        <!-- <option value="<="><=</option>
+        <option value=">=">>=</option> -
+        <option value="<=">>=</option>
+        <option value=">="><=</option>
+    </select><br />
+
+    3-е неравенство: <select class="sign-input" id="sign3">
+        <!-- <option value="<="><=</option>
+        <option value=">=">>=</option> 
+        <option value="<=">>=</option>
+        <option value=">="><=</option>
+    </select><br /><br/> -->
+    1-е неравенство: <select class="sign-input" id="sign1">
+        <option value="<="><=</option>
+        <option value=">=">>=</option>
+    </select><br />
+    
+    2-е неравенство: <select class="sign-input" id="sign2">
+        <option value="<="><=</option>
+        <option value=">=">>=</option>
+    </select><br />
+    
+    3-е неравенство: <select class="sign-input" id="sign3">
+        <option value="<="><=</option>
+        <option value=">=">>=</option>
+    </select><br /><br />
+    
+
+    <button id="dang">Построить график</button>
+
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script>
+        let myChart;
+        const title = document.getElementById('title')
+        const title1 = document.getElementById('title1')
+        const title2 = document.getElementById('title2')
+        const title3 = document.getElementById('title3')
+        const title4 = document.getElementById('title4')
+        const title5 = document.getElementById('title5')
+        const title11 = document.getElementById('title11')
+        const title22 = document.getElementById('title22')
+        const title33 = document.getElementById('title33')
+        const dang = document.getElementById('dang')
+
+        const sign1 = document.getElementById('sign1').value
+        const sign2 = document.getElementById('sign2').value
+        const sign3 = document.getElementById('sign3').value
+
+        // console.log('a1:', title.value, 'b1:', title1.value, 'c1:', title11.value);
+        // console.log('a2:', title2.value, 'b2:', title3.value, 'c2:', title22.value);
+        // console.log('a3:', title4.value, 'b3:', title5.value, 'c3:', title33.value);
+
+        // console.log('sign1:', sign1);
+
+
+        const xValues = []
+        const yValues1 = []
+        const yValues2 = []
+        const yValues3 = []
+        const yValuesHelp1verh = []
+        const yValuesHelp2verh = []
+        const yValuesHelp3verh = []
+        const yValuesHelp1niz = []
+        const yValuesHelp2niz = []
+        const yValuesHelp3niz = []
+
+//         // console.log('yValuesHelp1verh:',yValuesHelp1niz);
+//         // console.log('yValuesHelp2verh:', yValuesHelp2niz);
+//         // console.log('yValuesHelp3verh:',  yValuesHelp3niz);
+
+//         console.log('yValuesHelp1verh:', yValuesHelp1verh);
+// console.log('yValuesHelp2verh:', yValuesHelp2verh);
+// console.log('yValuesHelp3verh:', yValuesHelp3verh);
+
+// console.log('sign1:', sign1);
+// console.log('sign2:', sign2);
+// console.log('sign3:', sign3);
+
+        function xandyVizov() {
+            xValues.length = 0 
+            yValues1.length = 0
+            yValues2.length = 0
+            yValues3.length = 0
+            yValuesHelp1verh.length = 0
+            yValuesHelp2verh.length = 0
+            yValuesHelp3verh.length = 0
+            yValuesHelp1niz.length = 0
+            yValuesHelp2niz.length = 0
+            yValuesHelp3niz.length = 0
+
+            for (let x = -100; x <= 100; x += 2) {
+                xValues.push(x)
+                yValues1.push((-title.value / title1.value * x) + (title11.value / title1.value))
+                yValues2.push((-title2.value / title3.value * x) + (title22.value / title3.value))
+                yValues3.push((-title4.value / title5.value * x) + (title33.value / title5.value))
+            }
+
+            for (let x = -1000; x <= 1000; x += 2) {
+                xValues.push(x)
+                yValuesHelp1verh.push((-title.value / title1.value * x) + (title11.value * 1000 / title1.value))
+                yValuesHelp2verh.push((-title2.value / title3.value * x) + (title22.value * 1000 / title3.value))
+                yValuesHelp3verh.push((-title4.value / title5.value * x) + (title33.value * 1000 / title5.value))
+                yValuesHelp1niz.push((-title.value / title1.value * x) - (title11.value * 1000 / title1.value))
+                yValuesHelp2niz.push((-title2.value / title3.value * x) - (title22.value * 1000 / title3.value))
+                yValuesHelp3niz.push((-title4.value / title5.value * x) - (title33.value * 1000 / title5.value))
+            }
+        }
+
+        dang.onclick = () => {
+            xandyVizov()
+
+            if (!myChart) {
+                const ctx = document.getElementById('myChart').getContext('2d')
+                myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: xValues,
+                        datasets: [
+                            {
+                                label: 'Первое выражение',
+                                data: yValues1,
+                                borderColor: 'rgba(0, 255, 0)',
+                                borderWidth: 3,
+                                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                                fill: false
+                            },
+                            {
+                                label: 'Второе выражение',
+                                data: yValues2,
+                                borderColor: 'rgba(0, 255, 255)',
+                                borderWidth: 3,
+                                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                                fill: false
+                            },
+                            {
+                                label: 'Третье выражение',
+                                data: yValues3,
+                                borderColor: 'rgba(255, 255, 0)',
+                                borderWidth: 3,
+                                backgroundColor: 'rgba(255, 255, 0, 0.1 )',
+                                fill: false
+                            },
+                            ...(sign1 === '>=' ? [{
+                                label: 1,
+                                data: yValuesHelp1verh,
+                                borderColor: 'rgba(0, 255, 0)',
+                                borderWidth: 1,
+                                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                                fill:{
+                                    target: '0',
+                                    above: 'rgba(0, 255, 0, 0.1)'
+                                }
+                            }] : []),
+
+                            ...(sign2 === '>=' ? [{
+                                label: 2,
+                                data: yValuesHelp2verh,
+                                borderColor: 'rgba(0, 255, 255)',
+                                borderWidth: 1,
+                                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                                fill:{
+                                    target: '1',
+                                    above: 'rgba(0, 255, 255, 0.1)'
+                                }
+                            }] : []),
+                            ...(sign3 === '>=' ? [{
+                                label: 3,
+                                data: yValuesHelp3verh,
+                                borderColor: 'rgba(255, 0, 0)',
+                                borderWidth: 1,
+                                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                                fill:{
+                                    target: '2',
+                                    above: 'rgba(255, 0, 0, 0.1)'
+                                }
+                            }] : []),
+                            ...(sign1 === '<=' ? [{
+                                label: 4,
+                                data: yValuesHelp1niz,
+                                borderColor: 'rgba(0, 255, 0)',
+                                borderWidth: 1,
+                                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                                fill:{
+                                    target: '0',
+                                    above: 'rgba(0, 255, 0, 0.1)'
+                                }
+                            }] : []),
+                            ...(sign2 === '<=' ? [{
+                                label: 5,
+                                data: yValuesHelp2niz,
+                                borderColor: 'rgba(255, 0, 0)',
+                                borderWidth: 1,
+                                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                                fill:{
+                                    target: '1',
+                                    above: 'rgba(255, 0, 0, 0.1)'
+                                }
+                            }] : []),
+                            ...(sign3 === '<=' ? [{
+                                label: 6,
+                                data: yValuesHelp3niz,
+                                borderColor: 'rgba(255, 0, 0)',
+                                borderWidth: 1,
+                                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                                fill:{
+                                    target: '2',
+                                    above: 'rgba(255, 0, 0, 0.1)'
+                                }
+                            }] : []),
+  
+                            // {
+                            //     label: 1,
+                            //     data: yValuesHelp1verh,
+                            //     borderColor: 'rgba(0, 255, 0)',
+                            //     borderWidth: 3,
+                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                            //     fill: false
+                            // },
+                            // {
+                            //     label: 2,
+                            //     data: yValuesHelp2verh,
+                            //     borderColor: 'rgba(0, 255, 0)',
+                            //     borderWidth: 3,
+                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                            //     fill: false
+                            // },
+                            // {
+                            //     label: 3,
+                            //     data: yValuesHelp3verh,
+                            //     borderColor: 'rgba(0, 255, 0)',
+                            //     borderWidth: 3,
+                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                            //     fill: false
+                            // },
+                            // {
+                            //     label: 4,
+                            //     data: yValuesHelp1niz,
+                            //     borderColor: 'rgba(0, 255, 0)',
+                            //     borderWidth: 3,
+                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                            //     fill: false
+                            // },
+                            // {
+                            //     label: 5,
+                            //     data: yValuesHelp2niz,
+                            //     borderColor: 'rgba(0, 255, 0)',
+                            //     borderWidth: 3,
+                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                            //     fill: false
+                            // },
+                            // {
+                            //     label: 6,
+                            //     data: yValuesHelp3niz,
+                            //     borderColor: 'rgba(0, 255, 0)',
+                            //     borderWidth: 3,
+                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                            //     fill: false
+                            // }
+                        
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'x1'
+                                },
+                                min: 0,
+                                max: 100,
+                                beginAtZero: true
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'x2'
+                                },
+                                min: -100,
+                                max: 100,
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            },
+                            tooltip: {
+                                mode: 'index', // Показывать подсказки для всех наборов данных одновременно
+                                intersect: true
+                            }
+                        }
+                    }
+                })
+            } else {
+                updateChartData()
+            }
+        };
+
+        // Эта функция позволяет нам обновлять график автоматически, без перезагрузки страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            const signInputs = document.querySelectorAll('.sign-input') // эта строка выбирает ве элементы с классом sign-input
+            signInputs.forEach(input => {
+                //эта часть накладывает на все элементы с классом sign-input событие change(он срабатывает, когда мы выбираем знак в выпадающнм списке <select>), затем после изменения знака вызывается функция, которая обновляет график, в зависимости от выбранного значения
+                input.addEventListener('change', e => {
+                    updateChartData();
+                })
+            })
+        })
+
+//         window.addEventListener('load', () => {
+//             const savedSign1 = localStorage.getItem('sign1');
+//             const savedSign2 = localStorage.getItem('sign2');
+//             const savedSign3 = localStorage.getItem('sign3');
+
+//             if (savedSign1) document.getElementById('sign1').value = savedSign1;
+//             if (savedSign2) document.getElementById('sign2').value = savedSign2;
+//             if (savedSign3) document.getElementById('sign3').value = savedSign3;
+//         });
+
+// // Обработчик изменения select
+//         document.querySelectorAll('.sign-input').forEach(input => {
+//             input.addEventListener('change', e => {
+//                 // Сохраняем выбор пользователя
+//                 localStorage.setItem(e.target.id, e.target.value);
+//                 console.log('Выбранное значение:', e.target.value);
+//                 updateChartData();
+//             });
+//         });
+
+//         localStorage.clear();
+
+// window.addEventListener('load', () => {
+//     console.log('Страница загружена'); // Проверка, что событие load срабатывает
+//     const savedSign1 = localStorage.getItem('sign1');
+//     const savedSign2 = localStorage.getItem('sign2');
+//     const savedSign3 = localStorage.getItem('sign3');
+
+//     console.log('Сохранённые значения:', savedSign1, savedSign2, savedSign3); // Проверка, что значения из localStorage читаются
+
+//     if (savedSign1) document.getElementById('sign1').value = savedSign1;
+//     if (savedSign2) document.getElementById('sign2').value = savedSign2;
+//     if (savedSign3) document.getElementById('sign3').value = savedSign3;
+// });
+
+
+
+        // window.addEventListener('load', () => {
+        //     console.log('Страница загружена');
+        //     const savedSign1 = localStorage.getItem('sign1');
+        //     const savedSign2 = localStorage.getItem('sign2');
+        //     const savedSign3 = localStorage.getItem('sign3');
+
+        //     console.log('Сохранённые значения:', savedSign1, savedSign2, savedSign3);
+
+        //     if (savedSign1) document.getElementById('sign1').value = savedSign1;
+        //     if (savedSign2) document.getElementById('sign2').value = savedSign2;
+        //     if (savedSign3) document.getElementById('sign3').value = savedSign3;
+
+        //     // Обновляем график после восстановления значений
+        //     updateChartData();
+        // });
+        // //console.log(localStorage.getItem('sign1'));
+
+        // document.querySelectorAll('.sign-input').forEach(input => {
+        //         input.addEventListener('change', e => {
+        //         console.log('Событие change сработало для:', e.target.id); // Проверка, что событие change срабатывает
+        //         localStorage.setItem(e.target.id, e.target.value);
+        //         console.log('Выбранное значение:', e.target.value);
+        //         updateChartData();
+        //     });
+        // });
+
+        function updateChartData() {
+
+            const sign1 = document.getElementById('sign1')
+            const sign2 = document.getElementById('sign2')
+            const sign3 = document.getElementById('sign3')
+
+            xandyVizov();
+
+            let yValues1 = []
+            let yValues2 = []
+            let yValues3 = []
+
+            for (let x = -100; x <= 100; x += 2) {
+                yValues1.push((-title.value / title1.value * x) + (title11.value / title1.value))
+                yValues2.push((-title2.value / title3.value * x) + (title22.value / title3.value))
+                yValues3.push((-title4.value / title5.value * x) + (title33.value / title5.value))
+            }
+
+            if (myChart) {
+                myChart.data.datasets[0].data = yValues1
+                myChart.data.datasets[1].data = yValues2
+                myChart.data.datasets[2].data = yValues3
+
+                // myChart.data.datasets[3].data = sign1 === '>=' ? yValuesHelp1verh : [];
+                // myChart.data.datasets[4].data = sign1 === '<=' ? yValuesHelp1niz : [];
+                // myChart.data.datasets[5].data = sign2 === '>=' ? yValuesHelp2verh : [];
+                // myChart.data.datasets[6].data = sign2 === '<=' ? yValuesHelp2niz : [];
+                // myChart.data.datasets[7].data = sign3 === '>=' ? yValuesHelp3verh : [];
+                // myChart.data.datasets[8].data = sign3 === '<=' ? yValuesHelp3niz : [];
+
+                //Обновляем вспомогательные линии
+                // if (myChart.data.datasets[3]) {
+                //     myChart.data.datasets[3].data = sign1 === '>=' ? yValuesHelp1verh : [];
+                // }
+                // if (myChart.data.datasets[4]) {
+                //     myChart.data.datasets[4].data = sign1 === '<=' ? yValuesHelp1niz : [];
+                // }
+                // if (myChart.data.datasets[5]) {
+                //     myChart.data.datasets[5].data = sign2 === '>=' ? yValuesHelp2verh : [];
+                // }
+                // if (myChart.data.datasets[6]) {
+                //     myChart.data.datasets[6].data = sign2 === '<=' ? yValuesHelp2niz : [];
+                // }
+                // if (myChart.data.datasets[7]) {
+                //     myChart.data.datasets[7].data = sign3 === '>=' ? yValuesHelp3verh : [];
+                // }
+                // if (myChart.data.datasets[8]) {
+                //     myChart.data.datasets[8].data = sign3 === '<=' ? yValuesHelp3niz : [];
+                // }
+
+                // 
+                // Обновляем вспомогательные линии
+        const datasets = [
+            // Основные линии
+            {
+                label: 'Первое выражение',
+                data: yValues1,
+                borderColor: 'rgba(0, 255, 0)',
+                borderWidth: 3,
+                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                fill: false
+            },
+            {
+                label: 'Второе выражение',
+                data: yValues2,
+                borderColor: 'rgba(0, 255, 255)',
+                borderWidth: 3,
+                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                fill: false
+            },
+            {
+                label: 'Третье выражение',
+                data: yValues3,
+                borderColor: 'rgba(255, 255, 0)',
+                borderWidth: 3,
+                backgroundColor: 'rgba(255, 255, 0, 0.1)',
+                fill: false
+            },
+            // Вспомогательные линии
+            ...(sign1.value === '>=' ? [{
+                label: '1 >=',
+                data: yValuesHelp1verh,
+                borderColor: 'rgba(255, 0, 0)',
+                borderWidth: 1,
+                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                fill: {
+                    target: '0',
+                    above: 'rgba(0, 255, 0, 0.1)'
+                }
+            }] : []),
+            ...(sign2.value === '>=' ? [{
+                label: '2 >=',
+                data: yValuesHelp2verh,
+                borderColor: 'rgba(255, 0, 0)',
+                borderWidth: 1,
+                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                fill: {
+                    target: '1',
+                    above: 'rgba(0, 255, 255, 0.1)'
+                }
+            }] : []),
+            ...(sign3.value === '>=' ? [{
+                label: '3 >=',
+                data: yValuesHelp3verh,
+                borderColor: 'rgba(255, 0, 0)',
+                borderWidth: 1,
+                backgroundColor: 'rgba(255, 255, 0, 0.1)',
+                fill: {
+                    target: '2',
+                    above: 'rgba(255, 255, 0, 0.1)'
+                }
+            }] : []),
+            ...(sign1.value === '<=' ? [{
+                // label: '1 <=',
+                data: yValuesHelp1niz,
+                borderColor: 'rgba(0, 255, 0)',
+                borderWidth: 1,
+                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                fill: {
+                    target: '0',
+                    above: 'rgba(0, 255, 0, 0.1)'
+                }
+            }] : []),
+            ...(sign2.value === '<=' ? [{
+                // label: '2 <=',
+                data: yValuesHelp2niz,
+                borderColor: 'rgba(255, 0, 0)',
+                borderWidth: 1,
+                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                fill: {
+                    target: '1',
+                    above: 'rgba(0, 255, 255, 0.1)'
+                }
+            }] : []),
+            ...(sign3.value === '<=' ? [{
+                // label: '3 <=',
+                data: yValuesHelp3niz,
+                borderColor: 'rgba(255, 0, 0)',
+                borderWidth: 1,
+                backgroundColor: 'rgba(255, 255, 0, 0.1)',
+                fill: {
+                    target: '2',
+                    above: 'rgba(255, 255, 0, 0.1)'
+                }
+            }] : [])
+        ];
+
+        console.log("Обновление datasets:");
+        console.log("Знак 1:", sign1.value);
+        console.log("Знак 2:", sign2.value);
+        console.log("Знак 3:", sign3.value);
+        console.log("Datasets:", datasets);
+
+        // Обновляем все наборы данных
+        myChart.data.datasets = datasets;
+
+        // Обновляем график
+        
+
+                
+                myChart.update()
+            }
+        }
+
+//         document.querySelectorAll('.sign-input').forEach(input => {
+//     input.addEventListener('change', e => {
+//         console.log('Выбранное значение:', e.target.value);
+//     });
+// });
+        // function applySignToLine(yValues, sign) {
+        //     switch (sign) {
+        //         case '>=':
+        //             yValues.forEach((val, index) => {
+        //                 if (val < 0) {
+        //                     yValues[index] = undefined
+        //                 }
+        //             })
+        //             break
+        //         case '<=':
+        //             yValues.forEach((val, index) => {
+        //                 if (val > 0) {
+        //                     yValues[index] = undefined
+        //                 }
+        //             })
+        //             break
+
+
+        
+            // applySignToLine(yValues1, sign1)
+            // applySignToLine(yValues2, sign2) => это все было в апдейт чарт дата
+            // applySignToLine(yValues3, sign3)
+        //     }
+        // } 
+    </script>
+</body>
+</html>
