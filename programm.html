@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <title>Графическое решение задач ЛП</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
 </head>
 <body>
     Коэффициенты уравнений:<br />
-    x1: <input type="number" id="title" value="3"><br />
-    x2: <input type="number" id="title1" value="1"> c1: <input type="number" id="title11" value="9"><br /><br />
+    <input type="number" id="title" value="3">x1 + 
+    <input type="number" id="title1" value="1">x2 = <input type="number" id="title11" value="9"><br /><br />
     
-    x1: <input type="number" id="title2" value="1"><br />
-    x2: <input type="number" id="title3" value="2"> c2: <input type="number" id="title22" value="8"><br /><br />
+    <input type="number" id="title2" value="1">x1 + 
+    <input type="number" id="title3" value="2">x2 = <input type="number" id="title22" value="8"><br /><br />
 
-    x1: <input type="number" id="title4" value="1"><br />
-    x2: <input type="number" id="title5" value="6"> c3: <input type="number" id="title33" value="12"><br /><br />
+    <input type="number" id="title4" value="1">x1 + 
+    <input type="number" id="title5" value="6">x2 = <input type="number" id="title33" value="12"><br /><br />
 
 
 
@@ -145,146 +149,96 @@
                         labels: xValues,
                         datasets: [
                             {
-                                label: 'Первое выражение',
+                                label: '',
                                 data: yValues1,
-                                borderColor: 'rgba(0, 255, 0)',
+                                borderColor: 'rgba(255, 0, 0)',
                                 borderWidth: 3,
-                                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                                backgroundColor: 'rgba(255, 0, 0, 0.2)',
                                 fill: false
                             },
                             {
-                                //label: 'Второе выражение',
+                                label: '',
                                 data: yValues2,
-                                borderColor: 'rgba(0, 255, 255)',
+                                borderColor: 'rgba(0, 0, 255)',
                                 borderWidth: 3,
-                                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                                backgroundColor: 'rgba(0, 0, 255, 0.2)',
                                 fill: false
                             },
                             {
-                                label: 'Третье выражение',
+                                label: '',
                                 data: yValues3,
-                                borderColor: 'rgba(255, 255, 0)',
+                                borderColor: 'rgba(255, 128, 0)',
                                 borderWidth: 3,
-                                backgroundColor: 'rgba(255, 255, 0, 0.1 )',
+                                backgroundColor: 'rgba(255, 128, 0, 0.2 )',
                                 fill: false
                             },
                             ...(sign1 === '>=' ? [{
-                                label: 1,
+                                label: "",
                                 data: yValuesHelp1verh,
-                                borderColor: 'rgba(0, 255, 0)',
+                                borderColor: 'rgba(255, 0, 0)',
                                 borderWidth: 1,
-                                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                                backgroundColor: 'rgba(255, 0, 0, 0.2)',
                                 fill:{
                                     target: '0',
-                                    above: 'rgba(0, 255, 0, 0.1)'
+                                    above: 'rgba(255, 0, 0, 0.2)'
                                 }
                             }] : []),
 
                             ...(sign2 === '>=' ? [{
-                                label: 2,
+                                label: "",
                                 data: yValuesHelp2verh,
-                                borderColor: 'rgba(0, 255, 255)',
+                                borderColor: 'rgba(0, 0, 255)',
                                 borderWidth: 1,
-                                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                                backgroundColor: 'rgba(0, 0, 255, 0.2)',
                                 fill:{
                                     target: '1',
-                                    above: 'rgba(0, 255, 255, 0.1)'
+                                    above: 'rgba(0, 0, 255, 0.2)'
                                 }
                             }] : []),
                             ...(sign3 === '>=' ? [{
-                                label: 3,
+                                label: "",
                                 data: yValuesHelp3verh,
-                                borderColor: 'rgba(255, 0, 0)',
+                                borderColor: 'rgba(255, 128, 0)',
                                 borderWidth: 1,
-                                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                                backgroundColor: 'rgba(255, 128, 0, 0.2)',
                                 fill:{
                                     target: '2',
-                                    above: 'rgba(255, 0, 0, 0.1)'
+                                    above: 'rgba(255, 128, 0, 0.2)'
                                 }
                             }] : []),
                             ...(sign1 === '<=' ? [{
-                                label: 4,
+                                label: "",
                                 data: yValuesHelp1niz,
-                                borderColor: 'rgba(0, 255, 0)',
+                                borderColor: 'rgba(255, 0, 0)',
                                 borderWidth: 1,
-                                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                                backgroundColor: 'rgba(255, 0, 0, 0.2)',
                                 fill:{
                                     target: '0',
-                                    above: 'rgba(0, 255, 0, 0.1)'
+                                    above: 'rgba(255, 0, 0, 0.2)'
                                 }
                             }] : []),
                             ...(sign2 === '<=' ? [{
-                                label: 5,
+                                label: "",
                                 data: yValuesHelp2niz,
-                                borderColor: 'rgba(255, 0, 0)',
+                                borderColor: 'rgba(0, 0, 255)',
                                 borderWidth: 1,
-                                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                                backgroundColor: 'rgba(0, 0, 255, 0.2)',
                                 fill:{
                                     target: '1',
-                                    above: 'rgba(255, 0, 0, 0.1)'
+                                    above: 'rgba(0, 0, 255, 0.2)'
                                 }
                             }] : []),
                             ...(sign3 === '<=' ? [{
-                                label: 6,
+                                label: "",
                                 data: yValuesHelp3niz,
-                                borderColor: 'rgba(255, 0, 0)',
+                                borderColor: 'rgba(255, 128, 0)',
                                 borderWidth: 1,
-                                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                                backgroundColor: 'rgba(255, 128, 0, 0.2)',
                                 fill:{
                                     target: '2',
-                                    above: 'rgba(255, 0, 0, 0.1)'
+                                    above: 'rgba(255, 128, 0, 0.2)'
                                 }
                             }] : []),
-  
-                            // {
-                            //     label: 1,
-                            //     data: yValuesHelp1verh,
-                            //     borderColor: 'rgba(0, 255, 0)',
-                            //     borderWidth: 3,
-                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
-                            //     fill: false
-                            // },
-                            // {
-                            //     label: 2,
-                            //     data: yValuesHelp2verh,
-                            //     borderColor: 'rgba(0, 255, 0)',
-                            //     borderWidth: 3,
-                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
-                            //     fill: false
-                            // },
-                            // {
-                            //     label: 3,
-                            //     data: yValuesHelp3verh,
-                            //     borderColor: 'rgba(0, 255, 0)',
-                            //     borderWidth: 3,
-                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
-                            //     fill: false
-                            // },
-                            // {
-                            //     label: 4,
-                            //     data: yValuesHelp1niz,
-                            //     borderColor: 'rgba(0, 255, 0)',
-                            //     borderWidth: 3,
-                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
-                            //     fill: false
-                            // },
-                            // {
-                            //     label: 5,
-                            //     data: yValuesHelp2niz,
-                            //     borderColor: 'rgba(0, 255, 0)',
-                            //     borderWidth: 3,
-                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
-                            //     fill: false
-                            // },
-                            // {
-                            //     label: 6,
-                            //     data: yValuesHelp3niz,
-                            //     borderColor: 'rgba(0, 255, 0)',
-                            //     borderWidth: 3,
-                            //     backgroundColor: 'rgba(0, 255, 0, 0.1)',
-                            //     fill: false
-                            // }
-                        
                         ]
                     },
                     options: {
@@ -292,20 +246,20 @@
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'x1'
+                                    text: 'x'
                                 },
                                 min: 0,
                                 max: 100,
-                                beginAtZero: true
+                                beginAtZero: false
                             },
                             y: {
                                 title: {
                                     display: true,
-                                    text: 'x2'
+                                    text: 'y'
                                 },
-                                min: -100,
+                                min: 0,
                                 max: 100,
-                                beginAtZero: true
+                                beginAtZero: false
                             }
                         },
                         plugins: {
@@ -334,69 +288,6 @@
                 })
             })
         })
-
-//         window.addEventListener('load', () => {
-//             const savedSign1 = localStorage.getItem('sign1');
-//             const savedSign2 = localStorage.getItem('sign2');
-//             const savedSign3 = localStorage.getItem('sign3');
-
-//             if (savedSign1) document.getElementById('sign1').value = savedSign1;
-//             if (savedSign2) document.getElementById('sign2').value = savedSign2;
-//             if (savedSign3) document.getElementById('sign3').value = savedSign3;
-//         });
-
-// // Обработчик изменения select
-//         document.querySelectorAll('.sign-input').forEach(input => {
-//             input.addEventListener('change', e => {
-//                 // Сохраняем выбор пользователя
-//                 localStorage.setItem(e.target.id, e.target.value);
-//                 console.log('Выбранное значение:', e.target.value);
-//                 updateChartData();
-//             });
-//         });
-
-//         localStorage.clear();
-
-// window.addEventListener('load', () => {
-//     console.log('Страница загружена'); // Проверка, что событие load срабатывает
-//     const savedSign1 = localStorage.getItem('sign1');
-//     const savedSign2 = localStorage.getItem('sign2');
-//     const savedSign3 = localStorage.getItem('sign3');
-
-//     console.log('Сохранённые значения:', savedSign1, savedSign2, savedSign3); // Проверка, что значения из localStorage читаются
-
-//     if (savedSign1) document.getElementById('sign1').value = savedSign1;
-//     if (savedSign2) document.getElementById('sign2').value = savedSign2;
-//     if (savedSign3) document.getElementById('sign3').value = savedSign3;
-// });
-
-
-
-        // window.addEventListener('load', () => {
-        //     console.log('Страница загружена');
-        //     const savedSign1 = localStorage.getItem('sign1');
-        //     const savedSign2 = localStorage.getItem('sign2');
-        //     const savedSign3 = localStorage.getItem('sign3');
-
-        //     console.log('Сохранённые значения:', savedSign1, savedSign2, savedSign3);
-
-        //     if (savedSign1) document.getElementById('sign1').value = savedSign1;
-        //     if (savedSign2) document.getElementById('sign2').value = savedSign2;
-        //     if (savedSign3) document.getElementById('sign3').value = savedSign3;
-
-        //     // Обновляем график после восстановления значений
-        //     updateChartData();
-        // });
-        // //console.log(localStorage.getItem('sign1'));
-
-        // document.querySelectorAll('.sign-input').forEach(input => {
-        //         input.addEventListener('change', e => {
-        //         console.log('Событие change сработало для:', e.target.id); // Проверка, что событие change срабатывает
-        //         localStorage.setItem(e.target.id, e.target.value);
-        //         console.log('Выбранное значение:', e.target.value);
-        //         updateChartData();
-        //     });
-        // });
 
         function updateChartData() {
 
@@ -453,94 +344,94 @@
         const datasets = [
             // Основные линии
             {
-                label: 'Первое выражение',
+                label: '',
                 data: yValues1,
-                borderColor: 'rgba(0, 255, 0)',
+                borderColor: 'rgba(255, 0, 0)',
                 borderWidth: 3,
-                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
                 fill: false
             },
             {
-                label: 'Второе выражение',
+                label: '',
                 data: yValues2,
-                borderColor: 'rgba(0, 255, 255)',
+                borderColor: 'rgba(0, 0, 255)',
                 borderWidth: 3,
-                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                backgroundColor: 'rgba(0, 0, 255, 0.2)',
                 fill: false
             },
             {
-                label: 'Третье выражение',
+                label: '',
                 data: yValues3,
-                borderColor: 'rgba(255, 255, 0)',
+                borderColor: 'rgba(255, 128, 0)',
                 borderWidth: 3,
-                backgroundColor: 'rgba(255, 255, 0, 0.1)',
+                backgroundColor: 'rgba(255, 128, 0, 0.2)',
                 fill: false
             },
             // Вспомогательные линии
             ...(sign1.value === '>=' ? [{
-                label: '1 >=',
+                label: '',
                 data: yValuesHelp1verh,
                 borderColor: 'rgba(255, 0, 0)',
                 borderWidth: 1,
-                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
                 fill: {
                     target: '0',
-                    above: 'rgba(0, 255, 0, 0.1)'
+                    above: 'rgba(255, 0, 0, 0.2)'
                 }
             }] : []),
             ...(sign2.value === '>=' ? [{
-                label: '2 >=',
+                label: "",
                 data: yValuesHelp2verh,
-                borderColor: 'rgba(255, 0, 0)',
+                borderColor: 'rgba(0, 0, 255)',
                 borderWidth: 1,
-                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                backgroundColor: 'rgba(0, 0, 255, 0.2)',
                 fill: {
                     target: '1',
-                    above: 'rgba(0, 255, 255, 0.1)'
+                    above: 'rgba(0, 0, 255, 0.2)'
                 }
             }] : []),
             ...(sign3.value === '>=' ? [{
-                label: '3 >=',
+                label: '',
                 data: yValuesHelp3verh,
-                borderColor: 'rgba(255, 0, 0)',
+                borderColor: 'rgba(255, 128, 0)',
                 borderWidth: 1,
-                backgroundColor: 'rgba(255, 255, 0, 0.1)',
+                backgroundColor: 'rgba(255, 128, 0, 0.2)',
                 fill: {
                     target: '2',
-                    above: 'rgba(255, 255, 0, 0.1)'
+                    above: 'rgba(255, 128, 0, 0.2)'
                 }
             }] : []),
             ...(sign1.value === '<=' ? [{
-                // label: '1 <=',
+                label: '',
                 data: yValuesHelp1niz,
-                borderColor: 'rgba(0, 255, 0)',
+                borderColor: 'rgba(255, 0, 0)',
                 borderWidth: 1,
-                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
                 fill: {
                     target: '0',
-                    above: 'rgba(0, 255, 0, 0.1)'
+                    above: 'rgba(255, 0, 0, 0.2)'
                 }
             }] : []),
             ...(sign2.value === '<=' ? [{
-                // label: '2 <=',
+                label: '',
                 data: yValuesHelp2niz,
-                borderColor: 'rgba(255, 0, 0)',
+                borderColor: 'rgba(0, 0, 255)',
                 borderWidth: 1,
-                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                backgroundColor: 'rgba(0, 0, 255, 0.2)',
                 fill: {
                     target: '1',
-                    above: 'rgba(0, 255, 255, 0.1)'
+                    above: 'rgba(0, 0, 255, 0.2)'
                 }
             }] : []),
             ...(sign3.value === '<=' ? [{
-                // label: '3 <=',
+                label: '',
                 data: yValuesHelp3niz,
-                borderColor: 'rgba(255, 0, 0)',
+                borderColor: 'rgba(255, 128, 0)',
                 borderWidth: 1,
-                backgroundColor: 'rgba(255, 255, 0, 0.1)',
+                backgroundColor: 'rgba(255, 128, 0, 0.2)',
                 fill: {
                     target: '2',
-                    above: 'rgba(255, 255, 0, 0.1)'
+                    above: 'rgba(255, 128, 0, 0.2)'
                 }
             }] : [])
         ];
