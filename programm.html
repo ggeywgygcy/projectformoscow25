@@ -10,6 +10,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
 </head>
 <body>
+
+    <br />
+    Целевая функция:<br />
+    L = <input type="number" id="title6" value="12">x1 + 
+    <input type="number" id="title7" value="18">x2 -> <br /><br />
+
     Коэффициенты уравнений:<br />
     <input type="number" id="title" value="3">x1 + 
     <input type="number" id="title1" value="1">x2 = <input type="number" id="title11" value="9"><br /><br />
@@ -23,24 +29,6 @@
 
 
     Знаки неравенств:<br/>
-    <!-- 1-е неравенство: <select class="sign-input" id="sign1">
-        <option value="<=">>=</option>
-        <option value=">="><=</option>
-    </select><br />
-
-    2-е неравенство: <select class="sign-input" id="sign2">
-        <!-- <option value="<="><=</option>
-        <option value=">=">>=</option> -
-        <option value="<=">>=</option>
-        <option value=">="><=</option>
-    </select><br />
-
-    3-е неравенство: <select class="sign-input" id="sign3">
-        <!-- <option value="<="><=</option>
-        <option value=">=">>=</option> 
-        <option value="<=">>=</option>
-        <option value=">="><=</option>
-    </select><br /><br/> -->
     1-е неравенство: <select class="sign-input" id="sign1">
         <option value="<="><=</option>
         <option value=">=">>=</option>
@@ -63,6 +51,8 @@
 
     <script>
         let myChart;
+        const title6 = document.getElementById('title6')
+        const title7 = document.getElementById('title7')
         const title = document.getElementById('title')
         const title1 = document.getElementById('title1')
         const title2 = document.getElementById('title2')
@@ -78,17 +68,11 @@
         const sign2 = document.getElementById('sign2').value
         const sign3 = document.getElementById('sign3').value
 
-        // console.log('a1:', title.value, 'b1:', title1.value, 'c1:', title11.value);
-        // console.log('a2:', title2.value, 'b2:', title3.value, 'c2:', title22.value);
-        // console.log('a3:', title4.value, 'b3:', title5.value, 'c3:', title33.value);
-
-        // console.log('sign1:', sign1);
-
-
         const xValues = []
         const yValues1 = []
         const yValues2 = []
         const yValues3 = []
+        const yValues4 = []
         const yValuesHelp1verh = []
         const yValuesHelp2verh = []
         const yValuesHelp3verh = []
@@ -96,21 +80,10 @@
         const yValuesHelp2niz = []
         const yValuesHelp3niz = []
 
-//         // console.log('yValuesHelp1verh:',yValuesHelp1niz);
-//         // console.log('yValuesHelp2verh:', yValuesHelp2niz);
-//         // console.log('yValuesHelp3verh:',  yValuesHelp3niz);
-
-//         console.log('yValuesHelp1verh:', yValuesHelp1verh);
-// console.log('yValuesHelp2verh:', yValuesHelp2verh);
-// console.log('yValuesHelp3verh:', yValuesHelp3verh);
-
-// console.log('sign1:', sign1);
-// console.log('sign2:', sign2);
-// console.log('sign3:', sign3);
-
         function xandyVizov() {
             xValues.length = 0 
             yValues1.length = 0
+            yValues4.length = 0
             yValues2.length = 0
             yValues3.length = 0
             yValuesHelp1verh.length = 0
@@ -120,11 +93,17 @@
             yValuesHelp2niz.length = 0
             yValuesHelp3niz.length = 0
 
+            //yValues4.push((-title6.value * x / title7.value))
+
             for (let x = -100; x <= 100; x += 2) {
                 xValues.push(x)
                 yValues1.push((-title.value / title1.value * x) + (title11.value / title1.value))
                 yValues2.push((-title2.value / title3.value * x) + (title22.value / title3.value))
                 yValues3.push((-title4.value / title5.value * x) + (title33.value / title5.value))
+            }
+
+            for (let x = -100; x <= 100; x += 2) {
+                yValues4.push((-title6.value * x / title7.value))
             }
 
             for (let x = -1000; x <= 1000; x += 2) {
@@ -148,6 +127,14 @@
                     data: {
                         labels: xValues,
                         datasets: [
+                            // {
+                            //     label: '',
+                            //     data: yValues4,
+                            //     borderColor: 'rgba(0,69,36)',
+                            //     borderWidth: 3,
+                            //     //backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                            //     fill: false
+                            // },
                             {
                                 label: '',
                                 data: yValues1,
@@ -170,6 +157,13 @@
                                 borderColor: 'rgba(255, 128, 0)',
                                 borderWidth: 3,
                                 backgroundColor: 'rgba(255, 128, 0, 0.2 )',
+                                fill: false
+                            },
+                            {
+                                label: '',
+                                data: yValues4,
+                                borderColor: 'rgba(47,69,56)',
+                                borderWidth: 3,
                                 fill: false
                             },
                             ...(sign1 === '>=' ? [{
@@ -267,7 +261,7 @@
                                 position: 'bottom'
                             },
                             tooltip: {
-                                mode: 'index', // Показывать подсказки для всех наборов данных одновременно
+                                //mode: 'index', // Показывать подсказки для всех наборов данных одновременно
                                 intersect: true
                             }
                         }
@@ -445,43 +439,10 @@
         // Обновляем все наборы данных
         myChart.data.datasets = datasets;
 
-        // Обновляем график
-        
-
-                
+        // Обновляем график 
                 myChart.update()
             }
         }
-
-//         document.querySelectorAll('.sign-input').forEach(input => {
-//     input.addEventListener('change', e => {
-//         console.log('Выбранное значение:', e.target.value);
-//     });
-// });
-        // function applySignToLine(yValues, sign) {
-        //     switch (sign) {
-        //         case '>=':
-        //             yValues.forEach((val, index) => {
-        //                 if (val < 0) {
-        //                     yValues[index] = undefined
-        //                 }
-        //             })
-        //             break
-        //         case '<=':
-        //             yValues.forEach((val, index) => {
-        //                 if (val > 0) {
-        //                     yValues[index] = undefined
-        //                 }
-        //             })
-        //             break
-
-
-        
-            // applySignToLine(yValues1, sign1)
-            // applySignToLine(yValues2, sign2) => это все было в апдейт чарт дата
-            // applySignToLine(yValues3, sign3)
-        //     }
-        // } 
     </script>
 </body>
 </html>
