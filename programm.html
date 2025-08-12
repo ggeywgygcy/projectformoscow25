@@ -116,6 +116,8 @@
             }
         }
 
+        
+
         dang.onclick = () => {
             xandyVizov()
 
@@ -202,7 +204,7 @@
                                 fill:{
                                     target: '0',
                                     above: 'rgba(255, 0, 0, 0.2)'
-                                }
+                                },
                             }] : []),
                             ...(sign2 === '<=' ? [{
                                 label: "",
@@ -231,24 +233,44 @@
                     options: {
                         scales: {
                             x: {
-                                title: {
-                                    display: true,
-                                    text: 'x'
-                                },
+                                // title: {
+                                //     type: 'linear',
+                                //     display: true,
+                                //     text: 'x'
+                                // },
+                                // min: -100,
+                                // max: 100,
+                                // beginAtZero: true,
+                                // grace: '0%',
+                                // position: 'center'
+                                type: 'linear',
+                                position: 'center',
                                 min: -100,
                                 max: 100,
-                                beginAtZero: true,
-                                position: 'center'
+                                    offset: false, // Важно! Отключаем смещение
+                                ticks: {
+                                    stepSize: 20
+                                }
                             },
                             y: {
-                                title: {
-                                    display: true,
-                                    text: 'y'
-                                },
+                                // title: {
+                                //     type: 'linear',
+                                //     display: true,
+                                //     text: 'y'
+                                // },
+                                // min: -100,
+                                // max: 100,
+                                // beginAtZero: true,
+                                // grace: '0%',
+                                // position: 'center'
+                                type: 'linear',
+                                position: 'center',
                                 min: -100,
                                 max: 100,
-                                beginAtZero: true,
-                                position: 'center'
+                                offset: false,
+                                ticks: {
+                                    stepSize: 20
+                                }
                             }
                         },
                         plugins: {
@@ -260,6 +282,14 @@
                                 //mode: 'index', // Показывать подсказки для всех наборов данных одновременно
                                 intersect: true
                             },
+                            filler: {
+                                propagate: true // Должно быть true для старого поведения
+                            },
+                            elements: {
+                                line: {
+                                    tension: 0 // Без сглаживания (как на скриншоте)
+                                }
+                            },
                             annotation: {
                                 annotations: {
                                     arrow: {
@@ -270,15 +300,12 @@
                                         yMax: title7.value/6,
                                         borderColor: 'blue',
                                         borderWidth: 1
-                                        // arrowHeads: { 
-                                        // start: { enabled: true },
-                                        // end: { enabled: true }
-                                        // }
                                     }
                                 }
-                            }
+                            },
+                            
                         }
-                    }
+                    },
                 })
             } else {
                 updateChartData()
