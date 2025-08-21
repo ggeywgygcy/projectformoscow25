@@ -51,6 +51,36 @@
 
     <script>
 
+        function calculateOptimalVector(c1, c2) {
+            // Функция для вычисления наибольшего общего делителя (НОД)
+            function gcd(a, b) {
+                a = Math.abs(a);
+                b = Math.abs(b);
+                if (b === 0) return a;
+                return gcd(b, a % b);
+            }
+            
+            // 1. Находим НОД коэффициентов
+            const divisor = gcd(c1, c2);
+            
+            // 2. Масштабируем до минимальных целых чисел
+            let x = c1 / divisor;
+            let y = c2 / divisor;
+            
+            // 3. Проверяем длину вектора
+            const length = Math.sqrt(x * x + y * y);
+            const maxComfortableLength = 15; // Оптимальная длина для графика
+            
+            // 4. Если вектор слишком длинный, дополнительно масштабируем
+            if (length > maxComfortableLength) {
+                const scale = maxComfortableLength / length;
+                x = x * scale;
+                y = y * scale;
+            }
+            
+            return { x: x, y: y };
+        }
+
         let myChart;
         const title6 = document.getElementById('title6')
         const title7 = document.getElementById('title7')
@@ -105,7 +135,7 @@
                 yValues4.push((-title6.value * x / title7.value))
             }
 
-            for (let x = -1000; x <= 1000; x += 2) {
+            for (let x = -100; x <= 100; x += 2) {
                 xValues.push(x)
                 yValuesHelp1verh.push((-title.value / title1.value * x) + (title11.value * 1000 / title1.value))
                 yValuesHelp2verh.push((-title2.value / title3.value * x) + (title22.value * 1000 / title3.value))
@@ -114,13 +144,25 @@
                 yValuesHelp2niz.push((-title2.value / title3.value * x) - (title22.value * 1000 / title3.value))
                 yValuesHelp3niz.push((-title4.value / title5.value * x) - (title33.value * 1000 / title5.value))
             }
+
+            console.log('Диапазоны вспомогательных линий:');
+            console.log('Help1niz:', Math.min(...yValuesHelp1niz), 'до', Math.max(...yValuesHelp1niz));
+            console.log('Help2niz:', Math.min(...yValuesHelp2niz), 'до', Math.max(...yValuesHelp2niz));
+            console.log('Help3niz:', Math.min(...yValuesHelp3niz), 'до', Math.max(...yValuesHelp3niz));
+
         }
 
         
 
         dang.onclick = () => {
-            xandyVizov()
 
+            const c1 = parseFloat(title6.value);
+            const c2 = parseFloat(title7.value);
+            const vector = calculateOptimalVector(c1, c2);
+
+
+            xandyVizov()
+            
             if (!myChart) {
                 const ctx = document.getElementById('myChart').getContext('2d')
                 myChart = new Chart(ctx, {
@@ -246,11 +288,11 @@
                                 type: 'linear',
                                 position: 'center',
                                 min: -100,
-                                max: 100,
-                                    offset: false, // Важно! Отключаем смещение
-                                ticks: {
-                                    stepSize: 20
-                                }
+                                max: 100
+                                //     offset: false                                   , // Важно! Отключаем смещение
+                                // ticks: {
+                                //     stepSize: 20
+                                // }
                             },
                             y: {
                                 // title: {
@@ -266,11 +308,11 @@
                                 type: 'linear',
                                 position: 'center',
                                 min: -100,
-                                max: 100,
-                                offset: false,
-                                ticks: {
-                                    stepSize: 20
-                                }
+                                max: 100
+                                // offset: false,
+                                // ticks: {
+                                //     stepSize: 20
+                                // }
                             }
                         },
                         plugins: {
@@ -295,9 +337,9 @@
                                     arrow: {
                                         type: 'line',
                                         xMin: 0,
-                                        xMax: title6.value/6,
+                                        xMax: vector.x,
                                         yMin: 0,
-                                        yMax: title7.value/6,
+                                        yMax: vector.y,
                                         borderColor: 'blue',
                                         borderWidth: 1
                                     }
@@ -324,6 +366,11 @@
         })
 
         function updateChartData() {
+
+            // ДОБАВЬТЕ ЭТО В НАЧАЛО ФУНКЦИИ:
+            const c1 = parseFloat(title6.value);
+            const c2 = parseFloat(title7.value);
+            const vector = calculateOptimalVector(c1, c2);
 
             const sign1 = document.getElementById('sign1')
             const sign2 = document.getElementById('sign2')
@@ -487,6 +534,34 @@
 
         // Обновляем все наборы данных
         myChart.data.datasets = datasets;
+
+        if (myChart && myChart.options.plugins.annotation) {
+        // Обновляем координаты вектора
+        myChart.options.plugins.annotation.annotations.arrow.xMax = vector.x;
+        myChart.options.plugins.annotation.annotations.arrow.yMax = vector.y;
+        
+        // Если вектор ещё не создан - создаём его
+        if (!myChart.options.plugins.annotation.annotations.arrow) {
+            myChart.options.plugins.annotation.annotations.arrow = {
+                type: 'line',
+                xMin: 0,
+                yMin: 0,
+                xMax: vector.x,
+                yMax: vector.y,
+                borderColor: 'blue',
+                borderWidth: 2,
+                arrowHeads: {
+                    end: {
+                        enabled: true,
+                        fill: true,
+                        length: 15,
+                        width: 10
+                    }
+                }
+            };
+        }
+    }
+
 
         // Обновляем график 
                 myChart.update()
