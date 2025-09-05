@@ -20,7 +20,7 @@
         <option value="1">max</option>
         <option value="2">min</option>
     </select> -->
-    <select id="optimizationType">
+    <select id="optType">
         <option value="max">max</option>
         <option value="min">min</option>
     </select>
@@ -68,8 +68,21 @@
         const x = (c1 * b2 - c2 * b1) / determinant;
         const y = (a1 * c2 - a2 * c1) / determinant;
         return { x: x, y: y };
-    }
+        }
 
+        function isPointFeasible(point, constraints) {
+            for (const constraint of constraints) {
+                const value = constraint.a * point.x + constraint.b * point.y;
+                
+                if (constraint.sign === '<=' && value > constraint.eq + 0.001) {
+                    return false;
+                }
+                if (constraint.sign === '>=' && value < constraint.eq - 0.001) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         function calculateOptimalVector(c1, c2) {
             // Функция для вычисления наибольшего общего делителя (НОД)
@@ -180,6 +193,59 @@
             const c2 = parseFloat(title7.value);
             const vector = calculateOptimalVector(c1, c2);
 
+            const constraints = [
+                { 
+                    a: parseFloat(title.value), 
+                    b: parseFloat(title1.value), 
+                    eq: parseFloat(title11.value), 
+                    sign: document.getElementById('sign1').value 
+                },
+                { 
+                    a: parseFloat(title2.value), 
+                    b: parseFloat(title3.value), 
+                    eq: parseFloat(title22.value), 
+                    sign: document.getElementById('sign2').value 
+                },
+                { 
+                    a: parseFloat(title4.value), 
+                    b: parseFloat(title5.value), 
+                    eq: parseFloat(title33.value), 
+                    sign: document.getElementById('sign3').value 
+                }
+            ];
+
+            let allIntersections = [];
+                for (let i = 0; i < constraints.length; i++) {
+                    for (let j = i + 1; j < constraints.length; j++) {
+                        const line1 = constraints[i];
+                        const line2 = constraints[j];
+                        const point = findIntersection(line1.a, line1.b, line1.eq, line2.a, line2.b, line2.eq);
+                        if (point) {
+                            allIntersections.push(point);
+                        }
+                    }
+                }
+
+                const feasiblePoints = allIntersections.filter(point => 
+                    isPointFeasible(point, constraints)
+                );
+
+                const optimizationType = document.getElementById('optType').value;
+                let bestPoint = null;
+                let bestValue = (optimizationType === 'max') ? -Infinity : Infinity;
+
+                for (const point of feasiblePoints) {
+                    const L = c1 * point.x + c2 * point.y;
+                    
+                    if ((optimizationType === 'max' && L > bestValue) ||
+                        (optimizationType === 'min' && L < bestValue)) {
+                        bestValue = L;
+                        bestPoint = point;
+                    }
+                }
+
+                console.log('Оптимальная точка:', bestPoint);
+                console.log('Значение функции:', bestValue);
 
             xandyVizov()
             
@@ -222,6 +288,16 @@
                                 borderWidth: 2,
                                 pointBackgroundColor: 'transparent',
                                 fill: false
+                            },
+                            {
+                                label: 'Оптимальное решение',
+                                data: [{ x: bestPoint.x, y: bestPoint.y }],
+                                backgroundColor: 'green',
+                                borderColor: 'green',
+                                pointRadius: 10,
+                                pointStyle: 'circle',
+                                fill: true,
+                                showLine: false
                             },
                             ...(sign1 === '>=' ? [{
                                 label: "",
@@ -395,6 +471,45 @@
             const sign1 = document.getElementById('sign1')
             const sign2 = document.getElementById('sign2')
             const sign3 = document.getElementById('sign3')
+
+
+            // Получаем текущие значения с страницы
+            const constraints = [
+                { 
+                    a: parseFloat(title.value), 
+                    b: parseFloat(title1.value), 
+                    eq: parseFloat(title11.value), 
+                    sign: document.getElementById('sign1').value 
+                },
+                { 
+                    a: parseFloat(title2.value), 
+                    b: parseFloat(title3.value), 
+                    eq: parseFloat(title22.value), 
+                    sign: document.getElementById('sign2').value 
+                },
+                { 
+                    a: parseFloat(title4.value), 
+                    b: parseFloat(title5.value), 
+                    eq: parseFloat(title33.value), 
+                    sign: document.getElementById('sign3').value 
+                }
+            ];
+
+            let allIntersections = [];
+                for (let i = 0; i < constraints.length; i++) {
+                    for (let j = i + 1; j < constraints.length; j++) {
+                        const line1 = constraints[i];
+                        const line2 = constraints[j];
+                        const point = findIntersection(line1.a, line1.b, line1.eq, line2.a, line2.b, line2.eq);
+                        if (point) {
+                            allIntersections.push(point);
+                        }
+                    }
+                }
+
+                const feasiblePoints = allIntersections.filter(point => 
+                    isPointFeasible(point, constraints)
+                );
 
             xandyVizov();
 
