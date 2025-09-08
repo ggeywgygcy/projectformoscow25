@@ -60,6 +60,9 @@
 
     <script>
 
+        let optimalPoint = null;
+        let optimizationType = 'max';
+
         function findIntersection(a1, b1, c1, a2, b2, c2) {
         const determinant = a1 * b2 - a2 * b1;
         if (Math.abs(determinant) < 0.0001) {
@@ -230,7 +233,7 @@
                     isPointFeasible(point, constraints)
                 );
 
-                const optimizationType = document.getElementById('optType').value;
+                optimizationType = document.getElementById('optType').value;
                 let bestPoint = null;
                 let bestValue = (optimizationType === 'max') ? -Infinity : Infinity;
 
@@ -244,8 +247,10 @@
                     }
                 }
 
-                console.log('Оптимальная точка:', bestPoint);
-                console.log('Значение функции:', bestValue);
+                // optimalPoint = bestPoint;
+                // optimizationType = document.getElementById('optType').value;
+
+                optimalPoint = bestPoint;
 
             xandyVizov()
             
@@ -511,7 +516,57 @@
                     isPointFeasible(point, constraints)
                 );
 
+                optimizationType = document.getElementById('optType').value;
+                let bestPoint = null;
+                let bestValue = (optimizationType === 'max') ? -Infinity : Infinity;
+
+                for (const point of feasiblePoints) {
+                    const L = c1 * point.x + c2 * point.y;
+                    
+                    if ((optimizationType === 'max' && L > bestValue) ||
+                        (optimizationType === 'min' && L < bestValue)) {
+                        bestValue = L;
+                        bestPoint = point;
+                    }      
+                }
+
+                optimalPoint = bestPoint;
+
+                // console.log('Оптимальная точка:', bestPoint);
+                // console.log('Значение функции:', bestValue);
+
             xandyVizov();
+
+            if (optimalPoint) {
+                // Находим dataset с оптимальной точкой
+                let optimalDatasetIndex = -1;
+                for (let i = 0; i < myChart.data.datasets.length; i++) {
+                    if (myChart.data.datasets[i].label === 'Оптимальное решение') {
+                        optimalDatasetIndex = i;
+                        break;
+                    }
+                }
+                
+                // Обновляем данные
+                if (optimalDatasetIndex !== -1) {
+                    myChart.data.datasets[optimalDatasetIndex].data = [
+                        { x: optimalPoint.x, y: optimalPoint.y }
+                    ];
+                }
+            }
+
+    //         if (optimalPoint) {
+    //     myChart.data.datasets.push({
+    //         label: 'Оптимальное решение',
+    //         data: [{ x: optimalPoint.x, y: optimalPoint.y }],
+    //         backgroundColor: 'green',
+    //         borderColor: 'green',
+    //         pointRadius: 10,
+    //         pointStyle: 'circle',
+    //         fill: true,
+    //         showLine: false
+    //     });
+    // }
 
             let yValues1 = []
             let yValues2 = []
@@ -591,6 +646,17 @@
                 borderWidth: 2,
                 pointBackgroundColor: 'transparent',
                 fill: false
+            },
+            {
+                label: 'Оптимальное решение',
+                // data: [{ x: optimalPoint.x, y: optimalPoint.y }],
+                data: optimalPoint ? [{ x: optimalPoint.x, y: optimalPoint.y }] : [],
+                backgroundColor: 'green',
+                borderColor: 'green',
+                pointRadius: 10,
+                pointStyle: 'circle',
+                fill: true,
+                showLine: false
             },
             // Вспомогательные линии
             ...(sign1.value === '>=' ? [{
@@ -695,6 +761,26 @@
                 }
             };
         }
+    }
+
+    for (let i = 0; i < myChart.data.datasets.length; i++) {
+        if (myChart.data.datasets[i].label === 'Оптимальное решение') {
+            myChart.data.datasets.splice(i, 1);
+            break;
+        }
+    }
+
+    if (optimalPoint) {
+        myChart.data.datasets.push({
+            label: 'Оптимальное решение',
+            data: [{ x: optimalPoint.x, y: optimalPoint.y }],
+            backgroundColor: 'green',
+            borderColor: 'green',
+            pointRadius: 10,
+            pointStyle: 'circle',
+            fill: true,
+            showLine: false
+        });
     }
 
 
