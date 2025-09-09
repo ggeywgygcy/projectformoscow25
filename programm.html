@@ -453,6 +453,13 @@
             } else {
                 updateChartData()
             }
+
+            if (optimalPoint) {
+                setTimeout(() => {
+                    animateToOptimalPoint();
+                }, 500); // Задержка 0.5 секунды
+            }
+
         };
 
         // Эта функция позволяет нам обновлять график автоматически, без перезагрузки страницы
@@ -771,6 +778,12 @@
     }
 
     if (optimalPoint) {
+                setTimeout(() => {
+                    animateToOptimalPoint();
+                }, 500); // Задержка 0.5 секунды
+            }
+
+    if (optimalPoint) {
         myChart.data.datasets.push({
             label: 'Оптимальное решение',
             data: [{ x: optimalPoint.x, y: optimalPoint.y }],
@@ -807,6 +820,45 @@
     // const testPoint3 = findIntersection(1, 1, 5, 1, 1, 10);
     // console.log("Тест 3 (параллельные, ожидается null):", testPoint3);
 
+        // === ФУНКЦИЯ АНИМАЦИИ ===
+        function animateToOptimalPoint() {
+            const c1 = parseFloat(title6.value);
+            const c2 = parseFloat(title7.value);
+            
+            // 1. Определяем параметры анимации
+            const startL = 0; // Начальное значение L
+            const endL = c1 * optimalPoint.x + c2 * optimalPoint.y; // L в оптимальной точке
+            let currentL = startL;
+            const animationSpeed = 0.03; // Скорость (0.01-0.1)
+            
+            // 2. Находим индекс датасета с целевой функцией (yValues4)
+            const targetDatasetIndex = 3; // Обычно это 4-й dataset
+            
+            // 3. Функция для одного кадра анимации
+            function animateFrame() {
+                // Плавно меняем L
+                currentL += (endL - currentL) * animationSpeed;
+                
+                // Пересчитываем точки прямой
+                const newData = [];
+                for (let x = -100; x <= 100; x += 2) {
+                    const y = (currentL - c1 * x) / c2;
+                    newData.push({ x: x, y: y });
+                }
+                
+                // Обновляем график
+                myChart.data.datasets[targetDatasetIndex].data = newData;
+                myChart.update();
+                
+                // Проверяем, нужно ли продолжать
+                if (Math.abs(currentL - endL) > 0.5) {
+                    requestAnimationFrame(animateFrame);
+                }
+            }
+            
+            // 4. Запускаем анимацию
+            animateFrame();
+        }
 
     </script>
 </body>
