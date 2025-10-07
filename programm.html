@@ -95,19 +95,17 @@
                 if (b === 0) return a;
                 return gcd(b, a % b);
             }
-            
-            // 1. Находим НОД коэффициентов
+            // 1. Нахождение НОД коэффициентов
             const divisor = gcd(c1, c2);
             
-            // 2. Масштабируем до минимальных целых чисел
+            // 2. Масштабирование до минимальных целых чисел
             let x = c1 / divisor;
             let y = c2 / divisor;
             
-            // 3. Проверяем длину вектора
+            // 3. Проверка длины вектора
             const length = Math.sqrt(x * x + y * y);
             const maxComfortableLength = 15; // Оптимальная длина для графика
             
-            // 4. Если вектор слишком длинный, дополнительно масштабируем
             if (length > maxComfortableLength) {
                 const scale = maxComfortableLength / length;
                 x = x * scale;
@@ -390,7 +388,7 @@
                                 position: 'center',
                                 min: -100,
                                 max: 100
-                                //     offset: false                                   , // Важно! Отключаем смещение
+                                //     offset: false                                   ,
                                 // ticks: {
                                 //     stepSize: 20
                                 // }
@@ -422,15 +420,15 @@
                                 display: false
                             },
                             tooltip: {
-                                //mode: 'index', // Показывать подсказки для всех наборов данных одновременно
+                                //mode: 'index', 
                                 intersect: true
                             },
                             filler: {
-                                propagate: true // Должно быть true для старого поведения
+                                propagate: true 
                             },
                             elements: {
                                 line: {
-                                    tension: 0 // Без сглаживания (как на скриншоте)
+                                    tension: 0 
                                 }
                             },
                             annotation: {
@@ -457,12 +455,12 @@
             if (optimalPoint) {
                 setTimeout(() => {
                     animateToOptimalPoint();
-                }, 500); // Задержка 0.5 секунды
+                }, 500);
             }
 
         };
 
-        // Эта функция позволяет нам обновлять график автоматически, без перезагрузки страницы
+        // Эта функция позволяет обновлять график автоматически, без перезагрузки страницы
         document.addEventListener('DOMContentLoaded', () => {
             const signInputs = document.querySelectorAll('.sign-input') // эта строка выбирает ве элементы с классом sign-input
             signInputs.forEach(input => {
@@ -475,7 +473,6 @@
 
         function updateChartData() {
 
-            // ДОБАВЬТЕ ЭТО В НАЧАЛО ФУНКЦИИ:
             const c1 = parseFloat(title6.value);
             const c2 = parseFloat(title7.value);
             const vector = calculateOptimalVector(c1, c2);
@@ -484,8 +481,6 @@
             const sign2 = document.getElementById('sign2')
             const sign3 = document.getElementById('sign3')
 
-
-            // Получаем текущие значения с страницы
             const constraints = [
                 { 
                     a: parseFloat(title.value), 
@@ -545,7 +540,6 @@
             xandyVizov();
 
             if (optimalPoint) {
-                // Находим dataset с оптимальной точкой
                 let optimalDatasetIndex = -1;
                 for (let i = 0; i < myChart.data.datasets.length; i++) {
                     if (myChart.data.datasets[i].label === 'Оптимальное решение') {
@@ -617,10 +611,7 @@
                 //     myChart.data.datasets[8].data = sign3 === '<=' ? yValuesHelp3niz : [];
                 // }
 
-                // 
-                // Обновляем вспомогательные линии
         const datasets = [
-            // Основные линии
             {
                 label: '',
                 data: yValues1,
@@ -665,7 +656,7 @@
                 fill: true,
                 showLine: false
             },
-            // Вспомогательные линии
+            
             ...(sign1.value === '>=' ? [{
                 label: '',
                 data: yValuesHelp1verh,
@@ -740,15 +731,13 @@
         console.log("Знак 3:", sign3.value);
         console.log("Datasets:", datasets);
 
-        // Обновляем все наборы данных
         myChart.data.datasets = datasets;
 
         if (myChart && myChart.options.plugins.annotation) {
-        // Обновляем координаты вектора
+        
         myChart.options.plugins.annotation.annotations.arrow.xMax = vector.x;
         myChart.options.plugins.annotation.annotations.arrow.yMax = vector.y;
         
-        // Если вектор ещё не создан - создаём его
         if (!myChart.options.plugins.annotation.annotations.arrow) {
             myChart.options.plugins.annotation.annotations.arrow = {
                 type: 'line',
@@ -757,7 +746,7 @@
                 xMax: vector.x,
                 yMax: vector.y,
                 borderColor: 'blue',
-                borderWidth: 2,
+                borderWidth: 1,
                 arrowHeads: {
                     end: {
                         enabled: true,
@@ -780,7 +769,7 @@
     if (optimalPoint) {
                 setTimeout(() => {
                     animateToOptimalPoint();
-                }, 500); // Задержка 0.5 секунды
+                }, 500); 
             }
 
     if (optimalPoint) {
@@ -797,66 +786,38 @@
     }
 
 
-        // Обновляем график 
                 myChart.update()
             }
         }
 
-        // ТЕСТИРОВАНИЕ ФУНКЦИИ - добавьте в самый конец
-    // console.log("=== ТЕСТ ФУНКЦИИ findIntersection ===");
-    
-    // // Тест 1: Простые перпендикулярные линии
-    // // x = 2, y = 3
-    // const testPoint1 = findIntersection(1, 0, 2, 0, 1, 3);
-    // console.log("Тест 1 (ожидается x=2, y=3):", testPoint1);
-    
-    // // Тест 2: Ваши текущие уравнения из формы
-    // // 3x + y = 9 и x + 2y = 8
-    // // Решение: x=2, y=3
-    // const testPoint2 = findIntersection(3, 1, 9, 1, 2, 8);
-    // console.log("Тест 2 (ожидается x=2, y=3):", testPoint2);
-    
-    // // Тест 3: Параллельные линии (должны вернуть null)
-    // const testPoint3 = findIntersection(1, 1, 5, 1, 1, 10);
-    // console.log("Тест 3 (параллельные, ожидается null):", testPoint3);
-
-        // === ФУНКЦИЯ АНИМАЦИИ ===
         function animateToOptimalPoint() {
             const c1 = parseFloat(title6.value);
             const c2 = parseFloat(title7.value);
             
-            // 1. Определяем параметры анимации
-            const startL = 0; // Начальное значение L
-            const endL = c1 * optimalPoint.x + c2 * optimalPoint.y; // L в оптимальной точке
+            const startL = 0; 
+            const endL = c1 * optimalPoint.x + c2 * optimalPoint.y; 
             let currentL = startL;
-            const animationSpeed = 0.03; // Скорость (0.01-0.1)
+            const animationSpeed = 0.03; 
             
-            // 2. Находим индекс датасета с целевой функцией (yValues4)
-            const targetDatasetIndex = 3; // Обычно это 4-й dataset
+            const targetDatasetIndex = 3; 
             
-            // 3. Функция для одного кадра анимации
             function animateFrame() {
-                // Плавно меняем L
                 currentL += (endL - currentL) * animationSpeed;
                 
-                // Пересчитываем точки прямой
                 const newData = [];
                 for (let x = -100; x <= 100; x += 2) {
                     const y = (currentL - c1 * x) / c2;
                     newData.push({ x: x, y: y });
                 }
                 
-                // Обновляем график
                 myChart.data.datasets[targetDatasetIndex].data = newData;
                 myChart.update();
                 
-                // Проверяем, нужно ли продолжать
                 if (Math.abs(currentL - endL) > 0.5) {
                     requestAnimationFrame(animateFrame);
                 }
             }
             
-            // 4. Запускаем анимацию
             animateFrame();
         }
 
