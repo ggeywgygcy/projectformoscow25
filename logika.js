@@ -1,3 +1,80 @@
+const CONSTRAINT_COLORS = [
+    'rgba(255, 0, 0)',      // красный
+    'rgba(0, 0, 255)',      // синий  
+    'rgba(255, 128, 0)',    // оранжевый
+    'rgba(0, 128, 0)',      // зеленый
+    'rgba(128, 0, 255)',    // фиолетовый
+    'rgba(255, 0, 255)',    // розовый
+    'rgba(0, 255, 255)',    // бирюзовый
+    'rgba(128, 128, 0)',    // оливковый
+    'rgba(128, 0, 0)',      // бордовый
+    'rgba(0, 128, 128)'     // морской волны
+];
+
+// Функция добавления нового ограничения
+function addConstraint() {
+    const container = document.getElementById('constraints-container');
+    const currentCount = container.children.length;
+    
+    if (currentCount >= MAX_CONSTRAINTS) {
+        alert(`Максимум ${MAX_CONSTRAINTS} ограничений`);
+        return;
+    }
+    
+    const newIndex = currentCount;
+    const newRow = document.createElement('div');
+    newRow.className = 'constraint-row';
+    newRow.innerHTML = `
+        <input type="number" class="coeff-a" value="1">x1 + 
+        <input type="number" class="coeff-b" value="1">x2 
+         <select class="sign-select">
+            <option value="<="><=</option>
+            <option value=">=">>=</option>
+        </select>
+        <input type="number" class="coeff-c" value="5">
+        <button class="btn-remove-constraint" onclick="removeConstraint(this)">×</button>
+    `;
+    
+    container.appendChild(newRow);
+    updateConstraintsCounter();
+    updateRemoveButtons();
+}
+
+// Функция удаления ограничения
+function removeConstraint(button) {
+    const container = document.getElementById('constraints-container');
+    if (container.children.length <= 1) {
+        alert('Должно быть хотя бы одно ограничение');
+        return;
+    }
+    
+    const row = button.closest('.constraint-row');
+    container.removeChild(row);
+    updateConstraintsCounter();
+    updateRemoveButtons();
+}
+
+// Обновление счетчика ограничений
+function updateConstraintsCounter() {
+    const counter = document.getElementById('constraints-counter');
+    const currentCount = document.getElementById('constraints-container').children.length;
+    counter.textContent = `(${currentCount}/${MAX_CONSTRAINTS} ограничений)`;
+}
+
+// Обновление видимости кнопок удаления
+function updateRemoveButtons() {
+    const removeButtons = document.querySelectorAll('.btn-remove-constraint');
+    const shouldShow = document.getElementById('constraints-container').children.length > 1;
+    removeButtons.forEach(btn => btn.style.display = shouldShow ? 'block' : 'none');
+}
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('btn-add-constraint').addEventListener('click', addConstraint);
+    updateConstraintsCounter();
+    updateRemoveButtons();
+});
+
 let optimalPoint = null;
         let optimizationType = 'max';
 
@@ -54,104 +131,90 @@ let optimalPoint = null;
         }
 
         let myChart;
-        const title6 = document.getElementById('title6')
-        const title7 = document.getElementById('title7')
-        const title = document.getElementById('title')
-        const title1 = document.getElementById('title1')
-        const title2 = document.getElementById('title2')
-        const title3 = document.getElementById('title3')
-        const title4 = document.getElementById('title4')
-        const title5 = document.getElementById('title5')
-        const title11 = document.getElementById('title11')
-        const title22 = document.getElementById('title22')
-        const title33 = document.getElementById('title33')
-        const dang = document.getElementById('dang')
 
-        const sign1 = document.getElementById('sign1').value
-        const sign2 = document.getElementById('sign2').value
-        const sign3 = document.getElementById('sign3').value
+        // Основные элементы
+        const title6 = document.getElementById('title6');
+        const title7 = document.getElementById('title7');
+        const dang = document.getElementById('dang');
+        const xValues = [];
+        const yValues4 = [];
 
-        const xValues = []
-        const yValues1 = []
-        const yValues2 = []
-        const yValues3 = []
-        const yValues4 = []
-        const yValuesHelp1verh = []
-        const yValuesHelp2verh = []
-        const yValuesHelp3verh = []
-        const yValuesHelp1niz = []
-        const yValuesHelp2niz = []
-        const yValuesHelp3niz = []
+        // Новые глобальные массивы для графиков
+        let allDatasets = [];
+        let currentConstraints = [];
 
-        function xandyVizov() {
-            xValues.length = 0 
-            yValues1.length = 0
-            yValues4.length = 0
-            yValues2.length = 0
-            yValues3.length = 0
-            yValuesHelp1verh.length = 0
-            yValuesHelp2verh.length = 0
-            yValuesHelp3verh.length = 0
-            yValuesHelp1niz.length = 0
-            yValuesHelp2niz.length = 0
-            yValuesHelp3niz.length = 0
-
-            for (let x = -100; x <= 100; x += 2) {
-                xValues.push(x)
-                yValues1.push((-title.value / title1.value * x) + (title11.value / title1.value))
-                yValues2.push((-title2.value / title3.value * x) + (title22.value / title3.value))
-                yValues3.push((-title4.value / title5.value * x) + (title33.value / title5.value))
-            }
-
-            for (let x = -100; x <= 100; x += 2) {
-                yValues4.push((-title6.value * x / title7.value))
-            }
-
-            for (let x = -100; x <= 100; x += 2) {
-                xValues.push(x)
-                yValuesHelp1verh.push((-title.value / title1.value * x) + (title11.value * 1000 / title1.value))
-                yValuesHelp2verh.push((-title2.value / title3.value * x) + (title22.value * 1000 / title3.value))
-                yValuesHelp3verh.push((-title4.value / title5.value * x) + (title33.value * 1000 / title5.value))
-                yValuesHelp1niz.push((-title.value / title1.value * x) - (title11.value * 1000 / title1.value))
-                yValuesHelp2niz.push((-title2.value / title3.value * x) - (title22.value * 1000 / title3.value))
-                yValuesHelp3niz.push((-title4.value / title5.value * x) - (title33.value * 1000 / title5.value))
-            }
-
-            console.log('Диапазоны вспомогательных линий:');
-            console.log('Help1niz:', Math.min(...yValuesHelp1niz), 'до', Math.max(...yValuesHelp1niz));
-            console.log('Help2niz:', Math.min(...yValuesHelp2niz), 'до', Math.max(...yValuesHelp2niz));
-            console.log('Help3niz:', Math.min(...yValuesHelp3niz), 'до', Math.max(...yValuesHelp3niz));
-
-        }
-
+        // Максимальное количество ограничений
+        const MAX_CONSTRAINTS = 10;
         
+//НОВАЯ ФУНКЦИЯ ДАННЫХ ДЛЯ ГРАФИКОВ
+function xandyVizov(constraints) {
+    xValues.length = 0;
+    yValues4.length = 0;
+
+    // Очищаем ВСЕ массивы (до 10)
+    for (let i = 0; i < 10; i++) {
+        if (!window[`yValues${i}`]) window[`yValues${i}`] = [];
+        if (!window[`yValuesHelp${i}verh`]) window[`yValuesHelp${i}verh`] = [];
+        if (!window[`yValuesHelp${i}niz`]) window[`yValuesHelp${i}niz`] = [];
+        
+        window[`yValues${i}`].length = 0;
+        window[`yValuesHelp${i}verh`].length = 0;
+        window[`yValuesHelp${i}niz`].length = 0;
+    }
+
+    // Заполняем xValues и целевую функцию (это не меняется)
+    for (let x = -100; x <= 100; x += 2) {
+        xValues.push(x);
+        yValues4.push((-title6.value * x / title7.value));
+    }
+
+    // НОВОЕ: Динамически заполняем линии ограничений
+    constraints.forEach((constraint, index) => {
+        for (let x = -100; x <= 100; x += 2) {
+            // Основная линия
+            const y = (-constraint.a / constraint.b * x) + (constraint.eq / constraint.b);
+            window[`yValues${index}`].push(y);
+            
+            // Вспомогательные линии для заливки
+            window[`yValuesHelp${index}verh`].push(
+                (-constraint.a / constraint.b * x) + (constraint.eq * 1000 / constraint.b)
+            );
+            window[`yValuesHelp${index}niz`].push(
+                (-constraint.a / constraint.b * x) - (constraint.eq * 1000 / constraint.b)
+            );
+        }
+    });
+}
+
+// ████ ДОБАВЬ ЭТУ ФУНКЦИЮ ████
+function gatherConstraints() {
+    const constraints = [];
+    const rows = document.querySelectorAll('.constraint-row');
+    
+    rows.forEach(row => {
+        const a = parseFloat(row.querySelector('.coeff-a').value) || 0;
+        const b = parseFloat(row.querySelector('.coeff-b').value) || 0;
+        const c = parseFloat(row.querySelector('.coeff-c').value) || 0;
+        const sign = row.querySelector('.sign-select').value;
+        
+        constraints.push({ a, b, eq: c, sign });
+    });
+    
+    return constraints;
+}
 
         dang.onclick = () => {
 
+            // получаем constraints динамически 
+            const constraints = gatherConstraints();
+            
+            // ВСЯ ОСТАЛЬНАЯ ЛОГИКА ОСТАЕТСЯ ПРЕЖНЕЙ
             const c1 = parseFloat(title6.value);
             const c2 = parseFloat(title7.value);
             const vector = calculateOptimalVector(c1, c2);
 
-            const constraints = [
-                { 
-                    a: parseFloat(title.value), 
-                    b: parseFloat(title1.value), 
-                    eq: parseFloat(title11.value), 
-                    sign: document.getElementById('sign1').value 
-                },
-                { 
-                    a: parseFloat(title2.value), 
-                    b: parseFloat(title3.value), 
-                    eq: parseFloat(title22.value), 
-                    sign: document.getElementById('sign2').value 
-                },
-                { 
-                    a: parseFloat(title4.value), 
-                    b: parseFloat(title5.value), 
-                    eq: parseFloat(title33.value), 
-                    sign: document.getElementById('sign3').value 
-                }
-            ];
+            // constraints в xandyVizov 
+            xandyVizov(constraints);
 
             let allIntersections = [];
                 for (let i = 0; i < constraints.length; i++) {
@@ -188,7 +251,23 @@ let optimalPoint = null;
 
                 optimalPoint = bestPoint;
 
-            xandyVizov()
+            xandyVizov(constraints)
+
+            let optimalPointDataset = [];
+            if (bestPoint) {
+                optimalPointDataset = [{
+                    label: 'Оптимальное решение',
+                    data: [{ x: bestPoint.x, y: bestPoint.y }],
+                    backgroundColor: 'green',
+                    borderColor: 'green',
+                    pointRadius: 10,
+                    pointStyle: 'circle',
+                    fill: true,
+                    showLine: false
+                }];
+            } else {
+                console.warn('⚠️ Не найдено допустимое решение! Проверьте ограничения.');
+            }
             
             if (!myChart) {
                 const ctx = document.getElementById('myChart').getContext('2d')
@@ -197,117 +276,69 @@ let optimalPoint = null;
                     data: {
                         labels: xValues,
                         datasets: [
-                            {
+                            // Основные линии (динамически)
+                            ...constraints.map((constraint, index) => ({
                                 label: '',
-                                data: yValues1,
-                                borderColor: 'rgba(255, 0, 0)',
+                                data: window[`yValues${index}`],
+                                borderColor: CONSTRAINT_COLORS[index % CONSTRAINT_COLORS.length],
                                 borderWidth: 3,
-                                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                                backgroundColor: CONSTRAINT_COLORS[index % CONSTRAINT_COLORS.length].replace(')', ', 0.2)'),
                                 fill: false
-                            },
-                            {
-                                label: '',
-                                data: yValues2,
-                                borderColor: 'rgba(0, 0, 255)',
-                                borderWidth: 3,
-                                backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                                fill: false
-                            },
-                            {
-                                label: '',
-                                data: yValues3,
-                                borderColor: 'rgba(255, 128, 0)',
-                                borderWidth: 3,
-                                backgroundColor: 'rgba(255, 128, 0, 0.2 )',
-                                fill: false
-                            },
-                            {
-                                label: '',
-                                data: yValues4,
-                                borderColor: 'rgba(47,69,56)',
-                                pointRadius: 0,
-                                borderWidth: 2,
-                                pointBackgroundColor: 'transparent',
-                                fill: false
-                            },
-                            {
-                                label: 'Оптимальное решение',
-                                data: [{ x: bestPoint.x, y: bestPoint.y }],
-                                backgroundColor: 'green',
-                                borderColor: 'green',
-                                pointRadius: 10,
-                                pointStyle: 'circle',
-                                fill: true,
-                                showLine: false
-                            },
-                            ...(sign1 === '>=' ? [{
-                                label: "",
-                                data: yValuesHelp1verh,
-                                borderColor: 'rgba(255, 0, 0)',
-                                borderWidth: 1,
-                                backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                                fill:{
-                                    target: '0',
-                                    above: 'rgba(255, 0, 0, 0.2)'
-                                }
-                            }] : []),
+                            })),
+                            
+    ...constraints.map((constraint, index) => {
+        if (constraint.sign === '>=') {
+            return {
+                label: '',
+                data: window[`yValuesHelp${index}verh`],
+                borderColor: CONSTRAINT_COLORS[index % CONSTRAINT_COLORS.length],
+                borderWidth: 1,
+                backgroundColor: CONSTRAINT_COLORS[index % CONSTRAINT_COLORS.length].replace(')', ', 0.2)'),
+                fill: {
+                    target: `${index}`,
+                    above: CONSTRAINT_COLORS[index % CONSTRAINT_COLORS.length].replace(')', ', 0.2)')
+                }
+            };
+        } else {
+            return {
+                label: '',
+                data: window[`yValuesHelp${index}niz`],
+                borderColor: CONSTRAINT_COLORS[index % CONSTRAINT_COLORS.length],
+                borderWidth: 1,
+                backgroundColor: CONSTRAINT_COLORS[index % CONSTRAINT_COLORS.length].replace(')', ', 0.2)'),
+                fill: {
+                    target: `${index}`,
+                    above: CONSTRAINT_COLORS[index % CONSTRAINT_COLORS.length].replace(')', ', 0.2)')
+                }
+            };
+        }
+    }),
+    
+    // Целевая функция
+    {
+        label: '',
+        data: yValues4,
+        borderColor: 'rgba(47,69,56)',
+        pointRadius: 0,
+        borderWidth: 2,
+        pointBackgroundColor: 'transparent',
+        fill: false
+    },
+    
+    // Оптимальная точка
+    // {
+    //     label: 'Оптимальное решение',
+    //     data: [{ x: bestPoint.x, y: bestPoint.y }],
+    //     backgroundColor: 'green',
+    //     borderColor: 'green',
+    //     pointRadius: 10,
+    //     pointStyle: 'circle',
+    //     fill: true,
+    //     showLine: false
+    // }
 
-                            ...(sign2 === '>=' ? [{
-                                label: "",
-                                data: yValuesHelp2verh,
-                                borderColor: 'rgba(0, 0, 255)',
-                                borderWidth: 1,
-                                backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                                fill:{
-                                    target: '1',
-                                    above: 'rgba(0, 0, 255, 0.2)'
-                                }
-                            }] : []),
-                            ...(sign3 === '>=' ? [{
-                                label: "",
-                                data: yValuesHelp3verh,
-                                borderColor: 'rgba(255, 128, 0)',
-                                borderWidth: 1,
-                                backgroundColor: 'rgba(255, 128, 0, 0.2)',
-                                fill:{
-                                    target: '2',
-                                    above: 'rgba(255, 128, 0, 0.2)'
-                                }
-                            }] : []),
-                            ...(sign1 === '<=' ? [{
-                                label: "",
-                                data: yValuesHelp1niz,
-                                borderColor: 'rgba(255, 0, 0)',
-                                borderWidth: 1,
-                                backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                                fill:{
-                                    target: '0',
-                                    above: 'rgba(255, 0, 0, 0.2)'
-                                },
-                            }] : []),
-                            ...(sign2 === '<=' ? [{
-                                label: "",
-                                data: yValuesHelp2niz,
-                                borderColor: 'rgba(0, 0, 255)',
-                                borderWidth: 1,
-                                backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                                fill:{
-                                    target: '1',
-                                    above: 'rgba(0, 0, 255, 0.2)'
-                                }
-                            }] : []),
-                            ...(sign3 === '<=' ? [{
-                                label: "",
-                                data: yValuesHelp3niz,
-                                borderColor: 'rgba(255, 128, 0)',
-                                borderWidth: 1,
-                                backgroundColor: 'rgba(255, 128, 0, 0.2)',
-                                fill:{
-                                    target: '2',
-                                    above: 'rgba(255, 128, 0, 0.2)'
-                                }
-                            }] : []),
-                        ]
+    ...optimalPointDataset 
+]
                     },
                     options: {
                         scales: {
@@ -354,8 +385,8 @@ let optimalPoint = null;
                         },
                         plugins: {
                             legend: {
-                                //position: 'bottom'
-                                display: false
+                                position: 'bottom',
+                                display: true
                             },
                             tooltip: {
                                 //mode: 'index', 
@@ -392,7 +423,7 @@ let optimalPoint = null;
 
             if (optimalPoint) {
                 setTimeout(() => {
-                    animateToOptimalPoint();
+                    animateToOptimalPoint(constraints);
                 }, 500);
             }
 
@@ -400,7 +431,7 @@ let optimalPoint = null;
 
         // Эта функция позволяет обновлять график автоматически, без перезагрузки страницы
         document.addEventListener('DOMContentLoaded', () => {
-            const signInputs = document.querySelectorAll('.sign-input') // эта строка выбирает ве элементы с классом sign-input
+            const signInputs = document.querySelectorAll('.sign-select') // эта строка выбирает ве элементы с классом sign-input
             signInputs.forEach(input => {
                 //эта часть накладывает на все элементы с классом sign-input событие change(он срабатывает, когда мы выбираем знак в выпадающнм списке <select>), затем после изменения знака вызывается функция, которая обновляет график, в зависимости от выбранного значения
                 input.addEventListener('change', e => {
@@ -411,34 +442,13 @@ let optimalPoint = null;
 
         function updateChartData() {
 
+            const constraints = gatherConstraints();
+            
             const c1 = parseFloat(title6.value);
             const c2 = parseFloat(title7.value);
             const vector = calculateOptimalVector(c1, c2);
-
-            const sign1 = document.getElementById('sign1')
-            const sign2 = document.getElementById('sign2')
-            const sign3 = document.getElementById('sign3')
-
-            const constraints = [
-                { 
-                    a: parseFloat(title.value), 
-                    b: parseFloat(title1.value), 
-                    eq: parseFloat(title11.value), 
-                    sign: document.getElementById('sign1').value 
-                },
-                { 
-                    a: parseFloat(title2.value), 
-                    b: parseFloat(title3.value), 
-                    eq: parseFloat(title22.value), 
-                    sign: document.getElementById('sign2').value 
-                },
-                { 
-                    a: parseFloat(title4.value), 
-                    b: parseFloat(title5.value), 
-                    eq: parseFloat(title33.value), 
-                    sign: document.getElementById('sign3').value 
-                }
-            ];
+            
+            // ... остальной код без изменений
 
             let allIntersections = [];
                 for (let i = 0; i < constraints.length; i++) {
@@ -475,198 +485,71 @@ let optimalPoint = null;
                 // console.log('Оптимальная точка:', bestPoint);
                 // console.log('Значение функции:', bestValue);
 
-            xandyVizov();
+            xandyVizov(constraints);
 
-            if (optimalPoint) {
-                let optimalDatasetIndex = -1;
-                for (let i = 0; i < myChart.data.datasets.length; i++) {
-                    if (myChart.data.datasets[i].label === 'Оптимальное решение') {
-                        optimalDatasetIndex = i;
-                        break;
-                    }
-                }
-                
-                // Обновляем данные
-                if (optimalDatasetIndex !== -1) {
-                    myChart.data.datasets[optimalDatasetIndex].data = [
-                        { x: optimalPoint.x, y: optimalPoint.y }
-                    ];
-                }
-            }
+    const datasets = [
+    // Основные линии (динамически)
+    ...constraints.map((constraint, index) => ({
+        label: '',
+        data: window[`yValues${index}`],
+        borderColor: ['rgba(255, 0, 0)', 'rgba(0, 0, 255)', 'rgba(255, 128, 0)'][index % 3],
+        borderWidth: 3,
+        backgroundColor: ['rgba(255, 0, 0, 0.2)', 'rgba(0, 0, 255, 0.2)', 'rgba(255, 128, 0, 0.2)'][index % 3],
+        fill: false
+    })),
 
-    //         if (optimalPoint) {
-    //     myChart.data.datasets.push({
-    //         label: 'Оптимальное решение',
-    //         data: [{ x: optimalPoint.x, y: optimalPoint.y }],
-    //         backgroundColor: 'green',
-    //         borderColor: 'green',
-    //         pointRadius: 10,
-    //         pointStyle: 'circle',
-    //         fill: true,
-    //         showLine: false
-    //     });
-    // }
-
-            let yValues1 = []
-            let yValues2 = []
-            let yValues3 = []
-
-            for (let x = -100; x <= 100; x += 2) {
-                yValues1.push((-title.value / title1.value * x) + (title11.value / title1.value))
-                yValues2.push((-title2.value / title3.value * x) + (title22.value / title3.value))
-                yValues3.push((-title4.value / title5.value * x) + (title33.value / title5.value))
-            }
-
-            if (myChart) {
-                myChart.data.datasets[0].data = yValues1
-                myChart.data.datasets[1].data = yValues2
-                myChart.data.datasets[2].data = yValues3
-
-                // myChart.data.datasets[3].data = sign1 === '>=' ? yValuesHelp1verh : [];
-                // myChart.data.datasets[4].data = sign1 === '<=' ? yValuesHelp1niz : [];
-                // myChart.data.datasets[5].data = sign2 === '>=' ? yValuesHelp2verh : [];
-                // myChart.data.datasets[6].data = sign2 === '<=' ? yValuesHelp2niz : [];
-                // myChart.data.datasets[7].data = sign3 === '>=' ? yValuesHelp3verh : [];
-                // myChart.data.datasets[8].data = sign3 === '<=' ? yValuesHelp3niz : [];
-
-                //Обновляем вспомогательные линии
-                // if (myChart.data.datasets[3]) {
-                //     myChart.data.datasets[3].data = sign1 === '>=' ? yValuesHelp1verh : [];
-                // }
-                // if (myChart.data.datasets[4]) {
-                //     myChart.data.datasets[4].data = sign1 === '<=' ? yValuesHelp1niz : [];
-                // }
-                // if (myChart.data.datasets[5]) {
-                //     myChart.data.datasets[5].data = sign2 === '>=' ? yValuesHelp2verh : [];
-                // }
-                // if (myChart.data.datasets[6]) {
-                //     myChart.data.datasets[6].data = sign2 === '<=' ? yValuesHelp2niz : [];
-                // }
-                // if (myChart.data.datasets[7]) {
-                //     myChart.data.datasets[7].data = sign3 === '>=' ? yValuesHelp3verh : [];
-                // }
-                // if (myChart.data.datasets[8]) {
-                //     myChart.data.datasets[8].data = sign3 === '<=' ? yValuesHelp3niz : [];
-                // }
-
-        const datasets = [
-            {
+    ...constraints.map((constraint, index) => {
+        if (constraint.sign === '>=') {
+            return {
                 label: '',
-                data: yValues1,
-                borderColor: 'rgba(255, 0, 0)',
-                borderWidth: 3,
-                backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                fill: false
-            },
-            {
-                label: '',
-                data: yValues2,
-                borderColor: 'rgba(0, 0, 255)',
-                borderWidth: 3,
-                backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                fill: false
-            },
-            {
-                label: '',
-                data: yValues3,
-                borderColor: 'rgba(255, 128, 0)',
-                borderWidth: 3,
-                backgroundColor: 'rgba(255, 128, 0, 0.2)',
-                fill: false
-            },
-            {
-                label: '',
-                data: yValues4,
-                borderColor: 'rgba(47,69,56)',
-                pointRadius: 0,
-                borderWidth: 2,
-                pointBackgroundColor: 'transparent',
-                fill: false
-            },
-            {
-                label: 'Оптимальное решение',
-                // data: [{ x: optimalPoint.x, y: optimalPoint.y }],
-                data: optimalPoint ? [{ x: optimalPoint.x, y: optimalPoint.y }] : [],
-                backgroundColor: 'green',
-                borderColor: 'green',
-                pointRadius: 10,
-                pointStyle: 'circle',
-                fill: true,
-                showLine: false
-            },
-            
-            ...(sign1.value === '>=' ? [{
-                label: '',
-                data: yValuesHelp1verh,
-                borderColor: 'rgba(255, 0, 0)',
+                data: window[`yValuesHelp${index}verh`],
+                borderColor: ['rgba(255, 0, 0)', 'rgba(0, 0, 255)', 'rgba(255, 128, 0)'][index % 3],
                 borderWidth: 1,
-                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                backgroundColor: ['rgba(255, 0, 0, 0.1)', 'rgba(0, 0, 255, 0.1)', 'rgba(255, 128, 0, 0.1)'][index % 3],
                 fill: {
-                    target: '0',
-                    above: 'rgba(255, 0, 0, 0.2)'
+                    target: `${index}`,
+                    above: ['rgba(255, 0, 0, 0.1)', 'rgba(0, 0, 255, 0.1)', 'rgba(255, 128, 0, 0.1)'][index % 3]
                 }
-            }] : []),
-            ...(sign2.value === '>=' ? [{
-                label: "",
-                data: yValuesHelp2verh,
-                borderColor: 'rgba(0, 0, 255)',
-                borderWidth: 1,
-                backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                fill: {
-                    target: '1',
-                    above: 'rgba(0, 0, 255, 0.2)'
-                }
-            }] : []),
-            ...(sign3.value === '>=' ? [{
+            };
+        } else {
+            return {
                 label: '',
-                data: yValuesHelp3verh,
-                borderColor: 'rgba(255, 128, 0)',
+                data: window[`yValuesHelp${index}niz`],
+                borderColor: ['rgba(255, 0, 0)', 'rgba(0, 0, 255)', 'rgba(255, 128, 0)'][index % 3],
                 borderWidth: 1,
-                backgroundColor: 'rgba(255, 128, 0, 0.2)',
+                backgroundColor: ['rgba(255, 0, 0, 0.1)', 'rgba(0, 0, 255, 0.1)', 'rgba(255, 128, 0, 0.1)'][index % 3],
                 fill: {
-                    target: '2',
-                    above: 'rgba(255, 128, 0, 0.2)'
+                    target: `${index}`,
+                    above: ['rgba(255, 0, 0, 0.1)', 'rgba(0, 0, 255, 0.1)', 'rgba(255, 128, 0, 0.1)'][index % 3]
                 }
-            }] : []),
-            ...(sign1.value === '<=' ? [{
-                label: '',
-                data: yValuesHelp1niz,
-                borderColor: 'rgba(255, 0, 0)',
-                borderWidth: 1,
-                backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                fill: {
-                    target: '0',
-                    above: 'rgba(255, 0, 0, 0.2)'
-                }
-            }] : []),
-            ...(sign2.value === '<=' ? [{
-                label: '',
-                data: yValuesHelp2niz,
-                borderColor: 'rgba(0, 0, 255)',
-                borderWidth: 1,
-                backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                fill: {
-                    target: '1',
-                    above: 'rgba(0, 0, 255, 0.2)'
-                }
-            }] : []),
-            ...(sign3.value === '<=' ? [{
-                label: '',
-                data: yValuesHelp3niz,
-                borderColor: 'rgba(255, 128, 0)',
-                borderWidth: 1,
-                backgroundColor: 'rgba(255, 128, 0, 0.2)',
-                fill: {
-                    target: '2',
-                    above: 'rgba(255, 128, 0, 0.2)'
-                }
-            }] : [])
-        ];
+            };
+        }
+    }),
+    
+    // Целевая функция
+    {
+        label: '',
+        data: yValues4,
+        borderColor: 'rgba(47,69,56)',
+        pointRadius: 0,
+        borderWidth: 2,
+        pointBackgroundColor: 'transparent',
+        fill: false
+    },
+    
+    // Оптимальная точка
+    ...(bestPoint ? [{
+    label: 'Оптимальное решение',
+    data: [{ x: bestPoint.x, y: bestPoint.y }],
+    backgroundColor: 'green',
+    borderColor: 'green',
+    pointRadius: 10,
+    pointStyle: 'circle',
+    fill: true,
+    showLine: false
+}] : [])
+];
 
-        console.log("Обновление datasets:");
-        console.log("Знак 1:", sign1.value);
-        console.log("Знак 2:", sign2.value);
-        console.log("Знак 3:", sign3.value);
         console.log("Datasets:", datasets);
 
         myChart.data.datasets = datasets;
@@ -697,38 +580,16 @@ let optimalPoint = null;
         }
     }
 
-    for (let i = 0; i < myChart.data.datasets.length; i++) {
-        if (myChart.data.datasets[i].label === 'Оптимальное решение') {
-            myChart.data.datasets.splice(i, 1);
-            break;
-        }
-    }
-
     if (optimalPoint) {
                 setTimeout(() => {
-                    animateToOptimalPoint();
+                    animateToOptimalPoint(constraints);
                 }, 500); 
             }
-
-    if (optimalPoint) {
-        myChart.data.datasets.push({
-            label: 'Оптимальное решение',
-            data: [{ x: optimalPoint.x, y: optimalPoint.y }],
-            backgroundColor: 'green',
-            borderColor: 'green',
-            pointRadius: 10,
-            pointStyle: 'circle',
-            fill: true,
-            showLine: false
-        });
-    }
-
-
                 myChart.update()
             }
-        }
+        
 
-        function animateToOptimalPoint() {
+        function animateToOptimalPoint(constraints) {
             const c1 = parseFloat(title6.value);
             const c2 = parseFloat(title7.value);
             
@@ -737,7 +598,7 @@ let optimalPoint = null;
             let currentL = startL;
             const animationSpeed = 0.03; 
             
-            const targetDatasetIndex = 3; 
+            const targetDatasetIndex = constraints.length * 2; 
             
             function animateFrame() {
                 currentL += (endL - currentL) * animationSpeed;

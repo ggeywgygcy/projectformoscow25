@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Графическое решение задач ЛП</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://unpkg.com/chartjs-plugin-annotation@2.0.1/dist/chartjs-plugin-annotation.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
@@ -10,52 +11,70 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
     <script src="logika.js" defer></script>
+    <link rel="stylesheet" href="gesign.css" >
 </head>
 <body>
-
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">GraphOptima</span>
+        </div>
+    </nav>
     <br />
+
     Целевая функция:<br />
-    L = <input type="number" id="title6" value="12">x1 + 
-    <input type="number" id="title7" value="18">x2 -> 
-    <!-- <select class="form-select" aria-label="Default select example">
-        <option value="1">max</option>
-        <option value="2">min</option>
-    </select> -->
-    <select id="optType">
+    L = <input type="number" id="title6" class="sign" value="12">x1 + 
+    <input type="number" id="title7" class="sign" value="18">x2 -> 
+    <select id="optType" class="sign-selec">
         <option value="max">max</option>
         <option value="min">min</option>
     </select>
     <br /> <br />
 
-    Коэффициенты уравнений:<br />
-    <input type="number" id="title" value="3">x1 + 
-    <input type="number" id="title1" value="1">x2 = <input type="number" id="title11" value="9"><br /><br />
+    <div id="constraints-container">
+    <div class="constraint-row" data-index="0">
+        <input type="number" class="coeff-a" value="3">x1 + 
+        <input type="number" class="coeff-b" value="1">x2
+        <select class="sign-select" aria-label="Default select example">
+            <option value="<="><=</option>
+            <option value=">=">>=</option>
+        </select> 
+        <input type="number" class="coeff-c" value="9">
+        
+        <button class="btn-remove" style="display:none;">×</button>
+    </div>
     
-    <input type="number" id="title2" value="1">x1 + 
-    <input type="number" id="title3" value="2">x2 = <input type="number" id="title22" value="8"><br /><br />
-
-    <input type="number" id="title4" value="1">x1 + 
-    <input type="number" id="title5" value="6">x2 = <input type="number" id="title33" value="12"><br /><br />
-
-
-
-    Знаки неравенств:<br/>
-    1-е неравенство: <select class="sign-input" id="sign1">
-        <option value="<="><=</option>
-        <option value=">=">>=</option>
-    </select><br />
+    <div class="constraint-row" data-index="1">
+        <input type="number" class="coeff-a" value="1">x1 + 
+        <input type="number" class="coeff-b" value="2">x2 
+        <select class="sign-select" aria-label="Default select example"">
+            <option value="<=" selected><=</option>
+            <option value=">=">>=</option>
+        </select>
+        <input type="number" class="coeff-c" value="8">
+        <button class="btn-remove" style="display:none;">×</button>
+    </div>
     
-    2-е неравенство: <select class="sign-input" id="sign2">
-        <option value="<="><=</option>
-        <option value=">=">>=</option>
-    </select><br />
+    <div class="constraint-row" data-index="2">
+        <input type="number" class="coeff-a" value="1">x1 + 
+        <input type="number" class="coeff-b" value="6">x2
+        <select class="sign-select" aria-label="Default select example">
+            <option value="<=" selected><=</option>
+            <option value=">=">>=</option>
+        </select>
+        <input type="number" class="coeff-c" value="12">
+        <button class="btn-remove" style="display:none;">×</button>
+    </div>
+</div>
+
+<br />
+<button id="btn-add-constraint" class="modern-btn">+ Добавить ограничение</button>
+<span id="constraints-counter">(3/10 ограничений)</span>
+<br />
+<br />
+<button type="button" id="dang" class="modern-btn">Построить график</button>
+<br />
     
-    3-е неравенство: <select class="sign-input" id="sign3">
-        <option value="<="><=</option>
-        <option value=">=">>=</option>
-    </select><br /><br />
     
-    <button id="dang">Построить график</button>
 
     <canvas id="myChart" width="400" height="200"></canvas>
 </body>

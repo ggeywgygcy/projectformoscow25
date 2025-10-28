@@ -1,0 +1,132 @@
+.modern-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 24px;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255,255,255,0.3), 
+        transparent);
+    transition: left 0.5s;
+}
+
+.modern-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.modern-btn:hover::before {
+    left: 100%;
+}
+
+.modern-btn:active {
+    transform: translateY(0);
+}
+
+.sign, .sign-selec, .coeff-a, .coeff-b, .coeff-c {
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid #000000;
+    padding: 0 12px;
+    font-size: 16px;
+}
+
+.sign-select {
+    height: 40px;  /* чтобы совпадало с другими */
+    border-radius: 10px;
+    border: 2px solid #000000;
+    padding: 0 12px;
+}
+
+.bg-body-tertiary{
+    color: #000000;
+}
+
+/* @media (prefers-color-scheme: dark) {
+    body {
+        background: #1a1a1a;
+        color: #ffffff;
+    }
+    
+    .constraint-row {
+        background: #2d2d2d;
+        border-color: #444;
+    }
+    
+    .coeff-a, .coeff-b, .coeff-c, 
+    .sign, .sign-selec, .sign-select {
+        background: #333;
+        border-color: #555;
+        color: white;
+    }
+    
+    /* График тоже адаптируем *
+    #myChart {
+        background: #2d2d2d;
+        border-radius: 10px;
+        padding: 10px;
+    }
+}
+*/
+
+@media (max-width: 768px) {
+    .constraint-row {
+        padding: 10px;
+        margin: 10px 0;
+    }
+    
+    .coeff-a, .coeff-b, .coeff-c, 
+    .sign, .sign-selec, .sign-select {
+        height: 35px;
+        font-size: 14px;
+        margin: 2px 0;
+    }
+    
+    /* Кнопки в столбик на мобилках */
+    #btn-add-constraint, #dang {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    /* График поменьше */
+    #myChart {
+        width: 100% !important;
+        height: 300px !important;
+    }
+}
+
+/* Планшеты */
+@media (max-width: 1024px) {
+    .constraint-row {
+        flex-wrap: wrap;
+    }
+}
+
+.constraint-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap; /* перенос на маленьких экранах */
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #f8f9fa;
+}
