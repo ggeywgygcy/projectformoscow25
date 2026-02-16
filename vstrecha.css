@@ -1,0 +1,100 @@
+body{
+    /*
+* Created with https://www.css-gradient.com
+* Gradient link: https://www.css-gradient.com/?c1=f701ff&c2=4f01fe&gt=r&gd=dcc
+*/
+background: rgba(247, 1, 255, 1.0);
+background: fixed radial-gradient(at center, rgba(247, 1, 255, 1.0), rgba(79, 1, 254, 1.0));
+}
+
+.nadpis{
+    margin-top: 50px;
+    margin-left: 18%;
+    #h1{
+        color: white;
+        margin-left:12.5%;
+    }
+    #h4{
+        color: white;
+    }
+}
+
+.flex1{
+    display:flex;
+    flex-direction: row;
+    margin-top: 100px;
+    margin-left: 150px;
+    margin-right: 150px;
+    gap: 10px;
+    .opis{
+        margin-top: 20px;
+        #h2{
+            text-align: justify;
+            color: white;
+        }
+        #but1{
+            width: 30%;
+            height: 15%;
+            margin-top: 30px;
+            margin-left: 30%;
+            font-size: 19px;
+            border-radius: 0%;
+        }
+        /* .btn-primary:hover::after{
+            position: relative;
+            background-color: azure;
+            border-radius: 50%;
+        } */
+    }
+}
+
+.flex2{
+    display:flex;
+    flex-direction: row;
+    display:flex;
+    flex-direction: row;
+    margin-top: 100px;
+    margin-left: 150px;
+    margin-right: 150px;
+    gap: 10px;
+    .opis2{
+        margin-top: 20px;
+        #h21{
+            text-align: justify;
+        }
+        #but2{
+            width: 30%;
+            height: 15%;
+            margin-top: 30px;
+            margin-left: 30%;
+            font-size: 19px;
+            border-radius: 0%;
+        }
+    }
+    
+}
+
+.flex3{
+    display:flex;
+    flex-direction: row;
+    margin-top: 100px;
+    margin-left: 150px;
+    margin-right: 150px;
+    gap: 10px;
+    .opis3{
+        margin-top: 20px;
+        #h22{
+            text-align: justify;
+            color: white;
+        }
+        #but3{
+            width: 30%;
+            height: 15%;
+            margin-top: 30px;
+            margin-left: 30%;
+            font-size: 19px;
+            border-radius: 0%;
+        }
+    }
+    
+}

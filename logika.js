@@ -413,7 +413,6 @@ function gatherConstraints() {
                                     }
                                 }
                             },
-                            
                         }
                     },
                 })
@@ -596,7 +595,7 @@ function gatherConstraints() {
             const startL = 0; 
             const endL = c1 * optimalPoint.x + c2 * optimalPoint.y; 
             let currentL = startL;
-            const animationSpeed = 0.03; 
+            const animationSpeed = 0.05; 
             
             const targetDatasetIndex = constraints.length * 2; 
             
