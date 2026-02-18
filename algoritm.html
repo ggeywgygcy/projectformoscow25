@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Графическое решение задач ЛП</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://unpkg.com/chartjs-plugin-annotation@2.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
+    <!-- <script src=".js" defer></script> -->
+     <link rel="stylesheet" href="algoritm.css" >
+</head>
+<script>
+    window.MathJax = {
+    tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+    };
+</script>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="vstrecha.html">Грани оптимума</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="algoritm.html">Как решать?</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="orientir.html">Как пользоваться?</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="programm.html">Решатель</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="shagi">
+        <div class="shag1">
+            <h2>
+                Шаг 1. Понять задачу и ввести переменные
+            </h2>
+            <h4>
+                В задачах на оптимизацию обычно нужно найти, сколько взять того или иного продукта, чтобы стоимость была минимальной, а питательные вещества — не ниже нормы.
+            </h4>
+            <h4>
+                Пример:
+            </h4>
+            <h4>
+                -Корм \(К1 = x_1\), цена 12 д.ед./кг
+            </h4>
+            <h4>
+                -Корм \(К2 = x_2\)​, цена 18 д.ед./кг
+                Есть три вещества \(В1, В2, В3\) с нормами и содержанием в кормах.
+            </h4>
+            <h4>
+                Есть три вещества \(В1, В2, В3\) с нормами и содержанием в кормах.
+            </h4>
+        </div>
+
+        <div class="shag2">
+            <h2>
+                Шаг 2. Составить целевую функцию
+            </h2>
+            <h4>
+                Это формула того, что мы хотим минимизировать или максимизировать.
+            </h4>
+            <h4>
+                \( L = 12x_1 + 18x_2 \to \min \)
+            </h4>
+            <h4>
+                Значит, наша цель — сделать это выражение как можно меньше.
+            </h4>
+        </div>
+
+        <div class="shag3">
+            <h2>
+                Шаг 3. Записать ограничения
+            </h2>
+            <h4>
+                Каждое питательное вещество даёт ограничение:
+            </h4>
+            <h4>
+                \begin{cases}
+                3x_1 + x_2 \ge 9 \\
+                x_1 + 2x_2 \ge 8 \\
+                x_1 + 6x_2 \ge 12 \\
+                x_1 \ge 0,\; x_2 \ge 0
+                \end{cases}
+            </h4>
+            <h4>
+                Они означают: вещества должно быть не меньше нормы, а кормов — неотрицательное количество.
+            </h4>
+        </div>
+
+        <div class="shag4">
+            <h2>
+                Шаг 4. Превратить неравенства в уравнения
+            </h2>
+            <h4>
+                Чтобы построить прямые на графике, заменяем знак ≥ на =:
+            </h4>
+            <h4>
+                \( 3x_1 + x_2 \ge 9 \),
+
+                \( x_1 + 2x_2 \ge 8 \),
+
+                \( x_1 + 6x_2 \ge 12 \)
+            </h4>
+        </div>
+
+        <div class="shag5">
+            <h2>
+                Шаг 5. Построить прямые
+            </h2>
+            <h4>
+            Каждое уравнение — это прямая на плоскости (\(x_1\), \(x_2\))
+            </h4>
+            <h4>
+                Например:
+            </h4>
+            <h4>
+                -При \(x_1\) = 0 находим \(x_2\) 
+            </h4>
+            <h4>
+                Они означают: вещества должно быть не меньше нормы, а кормов — неотрицательное количество.
+            </h4>
+            <h4>
+                Рисуем все три прямые на одном графике.
+            </h4>
+            <img src="imgalg/Снимок экрана 2026-02-15 143022.png" width="400px" height="200px">
+        </div>
+
+        <div class="shag6">
+            <h2>
+                Шаг 6. Определить нужные полуплоскости
+            </h2>
+            <h4>
+            Так как у нас знак \(\ge\), выбираем полуплоскость выше или правее каждой прямой.
+            </h4>
+            <h4>
+            Область, где все они пересекаются, — это область допустимых решений (ОДР).
+            </h4>
+            <h4>
+            Она показывает, какие варианты вообще возможны.
+            </h4>
+            <img src="imgalg/Снимок экрана 2026-02-15 143232 — копия.png" width="400px" height="200px">
+        </div>
+
+        <div class="shag7">
+            <h2>
+                Шаг 7. Построить вектор целевой функции
+            </h2>
+            <h4>
+            Вектор \(\vec{C} = (12, 18)\)  показывает направление роста функции.
+            </h4>
+            <h4>
+            Если точки на графике слишком большие, вектор можно сократить, например, до \((2, 3)\) —
+            </h4>
+            <h4>
+            направление то же, но чертить удобнее.
+            </h4>
+            <img src="imgalg/Снимок экрана 2026-02-15 143432.png" width="400px" height="200px">
+        </div>
+
+        <div class="shag8">
+            <h2>
+                Шаг 8. Нарисовать линию уровня
+            </h2>
+            <h4>
+            Чертим прямую, перпендикулярную вектору. Это линия, где значение функции постоянно.
+            </h4>
+            <img src="imgalg/Снимок экрана 2026-02-15 144047.png" width="400px" height="200px">
+        </div>
+
+        <div class="shag9">
+            <h2>
+                Шаг 9. Двигаем линию до ОДР
+            </h2>
+            <h4>
+            Если задача на минимум, двигаем линию против вектора до последнего касания с ОДР.
+            </h4>
+            <img src="imgalg/Снимок экрана 2026-02-15 144143.png" width="400px" height="200px">
+        </div>
+
+        <div class="shag10">
+            <h2>
+            Шаг 10. Найти точку пересечения
+            <h4>
+            Координаты точки можно:
+            </h4>
+            <h4>
+            -определить по графику, например, \((3, 2)\)
+            </h4>
+            <h4>
+            -или точно решить систему уравнений:
+            </h4>
+            <h4>
+                \begin{cases}
+                3x_1 + x_2 = 9 \\
+                x_1 + 2x_2 = 8 \\
+                \end{cases}
+            </h4>
+            <h4>
+                Решаем — получаем: \(x_1 = 3\), \(x_2 = 2\)
+            </h4>
+            <img src="imgalg/Снимок экрана 2026-02-15 144514.png" width="400px" height="200px">
+        </div>
+
+        <div class="shag11">
+            <h2>
+            Шаг 11. Вычислить значение функции
+            <h4>
+            Подставляем в целевую функцию:
+            </h4>
+            <h4>
+            $$ L = 12⋅3+18⋅2=24+54=78 $$
+            </h4>
+            <h4>
+            Это и есть минимальная стоимость рациона.
+            </h4>
+            <h4>
+                ✅ Ответ: 78 д.ед. \(x_1 = 3\)кг корма К1 и \(x_2 = 2\)кг корма К2.
+            </h4>
+            <h4>
+                Если вы хотите посмотреть, как решается эта задача с помощью нашего инструмента, то заходите сюда!:
+            </h4>
+            <a class="btn btn-primary" id="primer" href="foralg.html" role="button">Link</a>
+        </div>
+    </div>
+</body>
+</html>
