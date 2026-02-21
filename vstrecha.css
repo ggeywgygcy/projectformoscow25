@@ -107,3 +107,133 @@ nav{
         }
     }
 }
+
+.footer {
+  position: absolute;
+  margin-top: 100px;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: purple;
+  color: white;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+@media(max-width: 450px){
+    #but1{
+        width: 15%;
+        height: 5px;
+        font-size: 10px;
+    }
+    #but2{
+        width: 15%;
+        height: 5px;
+        font-size: 10px;
+    }
+    #but3{
+        width: 15%;
+        height: 5px;
+        font-size: 10px;
+    }
+    .flex1{
+        flex-direction: column;
+        font-size: 1px;
+        margin-left: 15px;
+        margin-right: 15px;
+        /* img{
+            margin-left: 20%;
+            margin-right: 20%;
+        } */
+    }
+    .flex2{
+        flex-direction: column;
+        font-size: 1px;
+        margin-left: 15px;
+        margin-right: 15px;
+        /* img{
+            margin-left: 20%;
+            margin-right: 20%;
+        } */
+    }
+    .flex3{
+        flex-direction: column;
+        font-size: 1px;
+        margin-left: 15px;
+        margin-right: 15px;
+        /* img{
+            margin-left: 20%;
+            margin-right: 20%;
+        } */
+    }
+    .nadpis{
+        margin-left: 15px;
+        margin-right: 15px;
+        text-align: justify;
+    }
+    .footer {
+      left: 0px;
+      right: 0px;
+    }
+
+    nav{
+        left: 0px;
+        right: 0px;
+    }
+}
+
+@media(max-width: 600px){
+    #but1{
+        width: 15%;
+        height: 5px;
+        font-size: 10px;
+    }
+    #but2{
+        width: 15%;
+        height: 5px;
+        font-size: 10px;
+    }
+    #but3{
+        width: 15%;
+        height: 5px;
+        font-size: 10px;
+    }
+    .flex1{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+        img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+    .flex2{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+         img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+    .flex3{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+         img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+    .nadpis{
+        margin-left: 15px;
+        margin-right: 15px;
+        text-align: justify;
+    }
+}

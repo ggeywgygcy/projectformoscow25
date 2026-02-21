@@ -150,7 +150,7 @@ function xandyVizov(constraints) {
     xValues.length = 0;
     yValues4.length = 0;
 
-    // Очистка всех массивов (до 10)
+    // Очистка всех массивы (до 10)
     for (let i = 0; i < 10; i++) {
         if (!window[`yValues${i}`]) window[`yValues${i}`] = [];
         if (!window[`yValuesHelp${i}verh`]) window[`yValuesHelp${i}verh`] = [];
@@ -161,13 +161,13 @@ function xandyVizov(constraints) {
         window[`yValuesHelp${i}niz`].length = 0;
     }
 
-    // Заполненение xValues и целевой функции (это не меняется)
+    // Заполнение xValues и целевой функции (это не меняется)
     for (let x = -100; x <= 100; x += 2) {
         xValues.push(x);
         yValues4.push((-title6.value * x / title7.value));
     }
 
-    // Динамическое заполнение линии ограничений
+    //Динамическое заполнение линии ограничений
     constraints.forEach((constraint, index) => {
         for (let x = -100; x <= 100; x += 2) {
             // Основная линия

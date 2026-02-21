@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
 .modern-btn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;
@@ -11,6 +13,26 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+}
+
+nav{
+    font-family: 'Oswald';
+    height: 95px;
+}
+
+.footer {
+  position: absolute;
+  margin-top: 100px;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: purple;
+  color: white;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
 }
 
 .modern-btn::before {

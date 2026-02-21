@@ -14,26 +14,32 @@
     <link rel="stylesheet" href="gesign.css" >
 </head>
 <body>
-    <nav class="navbar bg-body-tertiary" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">Грани оптимума</span>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Решатель</a>
-                </li>
-            </ul>
-             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Как решать?</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Как пользоваться?</a>
-                </li>
-            </ul>
+            <a class="navbar-brand" href="vstrecha.html">Грани оптимума</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="algoritm.html">Как решать?</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="orientir.html">Как пользоваться?</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="programm.html">Решатель</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Решатель симплекс-метода</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
+
+    
     
     <br />
     Целевая функция:<br />
@@ -89,6 +95,8 @@
 <button type="button" id="dang" class="modern-btn">Построить график</button>
 <br />
 
-    <canvas id="myChart" width="400" height="200"></canvas>
+<canvas id="myChart" width="400" height="200"></canvas>
+
+<div class="footer">&copy;<span id="year"> </span><span> Грани оптимума. Наш инструмент еще находится в состоянии разработки, спасибо, что пользуетесь им!</span></div>
 </body>
 </html>

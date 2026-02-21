@@ -23,3 +23,73 @@ nav{
         text-align: justify;
     }
 }
+
+.koorresh{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-right: 12.5%;
+    margin-left: 12.5%;
+    h4{
+        text-align: justify;
+    }
+}
+
+.pryamoug{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-right: 12.5%;
+    margin-left: 12.5%;
+    h4{
+        text-align: justify;
+    }
+}
+
+.strelki{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-right: 12.5%;
+    margin-left: 12.5%;
+    h4{
+        text-align: justify;
+    }
+}
+
+.dob{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-right: 12.5%;
+    margin-left: 12.5%;
+    h4{
+        text-align: justify;
+    }
+}
+
+.del{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-right: 12.5%;
+    margin-left: 12.5%;
+    h4{
+        text-align: justify;
+    }
+}
+
+.footer {
+  position: absolute;
+  margin-top: 100px;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: purple;
+  color: white;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+}
