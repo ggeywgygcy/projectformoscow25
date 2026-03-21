@@ -200,7 +200,7 @@ function gatherConstraints() {
     
     return constraints;
 }
-    const otvet = getElementById("otvet");
+    const otvet = document.getElementById("otvet");
 
         dang.onclick = () => {
 
