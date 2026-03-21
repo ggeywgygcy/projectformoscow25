@@ -237,3 +237,209 @@ nav{
         text-align: justify;
     }
 }
+
+@media(max-width: 450px)
+{
+    #but1{
+        width: 15%;
+        height: 25px;
+        font-size: 10px;
+    }
+    #but2{
+        width: 15%;
+        height: 25px;
+        font-size: 10px;
+    }
+    #but3{
+        width: 15%;
+        height: 25px;
+        font-size: 10px;
+    }
+    .nav{
+        width: 400px;
+    }
+
+    img{
+        margin-left: 1px;
+        width: 245px;
+        height: 195px;
+    }
+}
+
+@media(max-width: 780px)
+{
+    #but1{
+        width: 15%;
+        height: 25px;
+        font-size: 10px;
+    }
+    #but2{
+        width: 15%;
+        height: 25px;
+        font-size: 10px;
+    }
+    #but3{
+        width: 15%;
+        height: 25px;
+        font-size: 10px;
+    }
+    .nav{
+        width: 400px;
+    }
+
+    img{
+        margin-left: 1px;
+        width: 200px;
+        height: 150px;
+    }
+
+    .flex1{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+        img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+    .flex2{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+         img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+    .flex3{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+         img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+}
+
+@media(max-width: 850px)
+{
+    #but1{
+        width: 35%;
+        height: 25px;
+        font-size: 10px;
+    }
+    #but2{
+        width: 35%;
+        height: 25px;
+        font-size: 10px;
+    }
+    #but3{
+        width: 35%;
+        height: 25px;
+        font-size: 10px;
+    }
+    .nav{
+        width: 400px;
+    }
+
+    img{
+        margin-left: 1px;
+        width: 200px;
+        height: 150px;
+    }
+
+    .flex1{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+        img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+    .flex2{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+         img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+    .flex3{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+         img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+}
+
+@media(max-width: 1200px)
+{
+    #but1{
+        width: 45%;
+        height: 25px;
+        font-size: 10px;
+    }
+    #but2{
+        width: 45%;
+        height: 25px;
+        font-size: 10px;
+    }
+    #but3{
+        width: 45%;
+        height: 25px;
+        font-size: 10px;
+    }
+    /* .nav{
+        width: 400px;
+    }
+
+    img{
+        margin-left: 1px;
+        width: 200px;
+        height: 150px;
+    }
+
+    .flex1{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+        img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+    .flex2{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+         img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    }
+    .flex3{
+        flex-direction: column;
+        font-size: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+         img{
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    } */
+}
+

@@ -155,3 +155,28 @@ nav{
   align-items: center;
   gap: 0.2rem;
 }
+
+@media(max-width: 450px)
+{
+    img{
+        margin-right: 100%;
+    }
+}
+
+@media(max-width: 400px)
+{
+    img{
+        margin-right: 100%;
+        width: 350px;
+        height: 150px;
+    }
+}
+
+@media(max-width: 350px)
+{
+    img{
+        margin-left: 2%;
+        width: 50%px;
+        height: 25%;
+    }
+}
