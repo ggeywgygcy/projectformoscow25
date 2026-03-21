@@ -200,6 +200,7 @@ function gatherConstraints() {
     
     return constraints;
 }
+    const otvet = getElementById("otvet");
 
         dang.onclick = () => {
 
@@ -262,6 +263,13 @@ function gatherConstraints() {
                     fill: true,
                     showLine: false
                 }];
+                otvet.innerHTML = 
+                        `
+                        <h3>
+                    Ответ:
+                </h3>
+                <h4>x: ${bestPoint.x}</h4>
+                <h4>x: ${bestPoint.y}</h4>`
             } else {
                 console.warn('⚠️ Не найдено допустимое решение! Проверьте ограничения.');
             }
@@ -612,4 +620,14 @@ function gatherConstraints() {
             }
             
             animateFrame();
+
+    //         otvet.innerHTML = 
+    //         `
+    //         <h3>
+    //     Ответ:
+    // </h3>
+    // <h4>x: ${bestPoint.x}</h4>
+    // <h4>x: ${bestPoint.y}</h4>`
+
+            
         }

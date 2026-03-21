@@ -153,6 +153,13 @@ nav{
     background: #f8f9fa;
 }
 
+@media (max-width: 400px) {
+    canvas{
+        width: 400px;
+        height: 400px;
+    }
+}
+
 /* .bg-body-tertiary{
     background-color: #000000;
 } */

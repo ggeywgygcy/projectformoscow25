@@ -11,6 +11,8 @@ const CONSTRAINT_COLORS = [
     'rgba(0, 128, 128)'     // морской волны
 ];
 
+const otvet = document.getElementById("otvet");
+
 // Функция добавления нового ограничения
 function addConstraint() {
     const container = document.getElementById('constraints-container');
@@ -200,6 +202,7 @@ function gatherConstraints() {
     
     return constraints;
 }
+        
 
         dang.onclick = () => {
 
@@ -262,10 +265,19 @@ function gatherConstraints() {
                     fill: true,
                     showLine: false
                 }];
+                otvet.innerHTML = 
+                        `
+                        <h3>
+                    Ответ:
+                </h3>
+                <h4>x: ${bestPoint.x}</h4>
+                <h4>x: ${bestPoint.y}</h4>`
             } else {
                 console.warn('⚠️ Не найдено допустимое решение! Проверьте ограничения.');
             }
             
+
+
             if (!myChart) {
                 const ctx = document.getElementById('myChart').getContext('2d')
                 myChart = new Chart(ctx, {
@@ -425,6 +437,8 @@ function gatherConstraints() {
 
         };
 
+                
+
         // Эта функция позволяет обновлять график автоматически, без перезагрузки страницы
         document.addEventListener('DOMContentLoaded', () => {
             const signInputs = document.querySelectorAll('.sign-select') // эта строка выбирает ве элементы с классом sign-input
@@ -544,7 +558,8 @@ function gatherConstraints() {
 }] : [])
 ];
 
-        console.log("Datasets:", datasets);
+
+        //console.log("Datasets:", datasets);
 
         myChart.data.datasets = datasets;
 
@@ -612,4 +627,12 @@ function gatherConstraints() {
             }
             
             animateFrame();
+
+            // otvet.innerHTML = 
+            //             `
+            //             <h3>
+            //         Ответ:
+            //     </h3>
+            //     <h4>x: ${bestPoint.x}</h4>
+            //     <h4>x: ${bestPoint.y}</h4>`
         }
