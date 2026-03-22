@@ -269,7 +269,7 @@ function gatherConstraints() {
                     Ответ:
                 </h3>
                 <h4>x: ${bestPoint.x}</h4>
-                <h4>x: ${bestPoint.y}</h4>`
+                <h4>y: ${bestPoint.y}</h4>`
             } else {
                 console.warn('⚠️ Не найдено допустимое решение! Проверьте ограничения.');
             }
